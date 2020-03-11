@@ -34,7 +34,7 @@ namespace JBig2Decoder.NETCore
     }
     public static byte[] ToByteArray(this Bitmap img)
     {
-      byte[] byteArray = new byte[0];
+      byte[] byteArray = Array.Empty<byte>();
       using (MemoryStream stream = new MemoryStream())
       {
         img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
