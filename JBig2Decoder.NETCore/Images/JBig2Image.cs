@@ -316,7 +316,7 @@ namespace JBig2Decoder.NETCore
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.bit32ShiftL(cx0, 13)) | (BinaryOperation.bit32ShiftL(cx1, 8)) | (BinaryOperation.bit32ShiftL(cx2, 4)) | (atPtr0.nextPixel() << 3) | (atPtr1.nextPixel() << 2) | (atPtr2.nextPixel() << 1) | atPtr3.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 13)) | (BinaryOperation.Bit32ShiftL(cx1, 8)) | (BinaryOperation.Bit32ShiftL(cx2, 4)) | (atPtr0.nextPixel() << 3) | (atPtr1.nextPixel() << 2) | (atPtr2.nextPixel() << 1) | atPtr3.nextPixel();
 
                 if (useSkip && skipBitmap.getPixel(col, row) != 0)
                 {
@@ -327,13 +327,13 @@ namespace JBig2Decoder.NETCore
                   pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
-                    data.set(row * width + col);
+                    data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
-                cx1 = ((BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
-                cx2 = ((BinaryOperation.bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
               }
               break;
 
@@ -362,7 +362,7 @@ namespace JBig2Decoder.NETCore
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.bit32ShiftL(cx0, 9)) | (BinaryOperation.bit32ShiftL(cx1, 4)) | (BinaryOperation.bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 9)) | (BinaryOperation.Bit32ShiftL(cx1, 4)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
 
                 if (useSkip && skipBitmap.getPixel(col, row) != 0)
                 {
@@ -373,13 +373,13 @@ namespace JBig2Decoder.NETCore
                   pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
-                    data.set(row * width + col);
+                    data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x0f;
-                cx1 = ((BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
-                cx2 = ((BinaryOperation.bit32ShiftL(cx2, 1)) | pixel) & 0x07;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x0f;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x07;
               }
               break;
 
@@ -405,7 +405,7 @@ namespace JBig2Decoder.NETCore
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.bit32ShiftL(cx0, 7)) | (BinaryOperation.bit32ShiftL(cx1, 3)) | (BinaryOperation.bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (BinaryOperation.Bit32ShiftL(cx1, 3)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
 
                 if (useSkip && skipBitmap.getPixel(col, row) != 0)
                 {
@@ -416,13 +416,13 @@ namespace JBig2Decoder.NETCore
                   pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
-                    data.set(row * width + col);
+                    data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
-                cx1 = ((BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x0f;
-                cx2 = ((BinaryOperation.bit32ShiftL(cx2, 1)) | pixel) & 0x03;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x0f;
+                cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x03;
               }
               break;
 
@@ -441,7 +441,7 @@ namespace JBig2Decoder.NETCore
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.bit32ShiftL(cx1, 5)) | (BinaryOperation.bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx1, 5)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
 
                 if (useSkip && skipBitmap.getPixel(col, row) != 0)
                 {
@@ -453,12 +453,12 @@ namespace JBig2Decoder.NETCore
                   pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
-                    data.set(row * width + col);
+                    data.Set(row * width + col);
                   }
                 }
 
-                cx1 = ((BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
-                cx2 = ((BinaryOperation.bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
               }
               break;
           }
@@ -522,7 +522,7 @@ namespace JBig2Decoder.NETCore
 
           cxPtr3.setPointer(-1 - referenceDX, row - referenceDY);
           cx3 = cxPtr3.nextPixel();
-          cx3 = (BinaryOperation.bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
+          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
 
           cxPtr4.setPointer(-referenceDX, row + 1 - referenceDY);
           cx4 = cxPtr4.nextPixel();
@@ -533,32 +533,32 @@ namespace JBig2Decoder.NETCore
           {
             typicalPredictionGenericRefinementCXPtr0.setPointer(-1 - referenceDX, row - 1 - referenceDY);
             typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
 
             typicalPredictionGenericRefinementCXPtr1.setPointer(-1 - referenceDX, row - referenceDY);
             typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
 
             typicalPredictionGenericRefinementCXPtr2.setPointer(-1 - referenceDX, row + 1 - referenceDY);
             typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
           }
 
           for (int col = 0; col < width; col++)
           {
 
-            cx0 = ((BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 7;
-            cx3 = ((BinaryOperation.bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
-            cx4 = ((BinaryOperation.bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 3;
+            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 7;
+            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
+            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 3;
 
             if (typicalPredictionGenericRefinementOn)
             {
-              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
 
               int decodeBit = arithmeticDecoder.decodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
               if (decodeBit != 0)
@@ -577,12 +577,12 @@ namespace JBig2Decoder.NETCore
               }
             }
 
-            cx = (BinaryOperation.bit32ShiftL(cx0, 7)) | (cxPtr1.nextPixel() << 6) | (cxPtr2.nextPixel() << 5) | (BinaryOperation.bit32ShiftL(cx3, 2)) | cx4;
+            cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (cxPtr1.nextPixel() << 6) | (cxPtr2.nextPixel() << 5) | (BinaryOperation.Bit32ShiftL(cx3, 2)) | cx4;
 
             int pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.refinementRegionStats);
             if (pixel == 1)
             {
-              data.set(row * width + col);
+              data.Set(row * width + col);
             }
           }
 
@@ -600,11 +600,11 @@ namespace JBig2Decoder.NETCore
 
           cxPtr3.setPointer(-1 - referenceDX, row - referenceDY);
           cx3 = cxPtr3.nextPixel();
-          cx3 = (BinaryOperation.bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
+          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
 
           cxPtr4.setPointer(-1 - referenceDX, row + 1 - referenceDY);
           cx4 = cxPtr4.nextPixel();
-          cx4 = (BinaryOperation.bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel();
+          cx4 = (BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel();
 
           cxPtr5.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
 
@@ -615,33 +615,33 @@ namespace JBig2Decoder.NETCore
           {
             typicalPredictionGenericRefinementCXPtr0.setPointer(-1 - referenceDX, row - 1 - referenceDY);
             typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
 
             typicalPredictionGenericRefinementCXPtr1.setPointer(-1 - referenceDX, row - referenceDY);
             typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
 
             typicalPredictionGenericRefinementCXPtr2.setPointer(-1 - referenceDX, row + 1 - referenceDY);
             typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
           }
 
           for (int col = 0; col < width; col++)
           {
 
-            cx0 = ((BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 3;
-            cx2 = ((BinaryOperation.bit32ShiftL(cx2, 1)) | cxPtr2.nextPixel()) & 3;
-            cx3 = ((BinaryOperation.bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
-            cx4 = ((BinaryOperation.bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 7;
+            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 3;
+            cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | cxPtr2.nextPixel()) & 3;
+            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
+            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 7;
 
             if (typicalPredictionGenericRefinementOn)
             {
-              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
 
               int decodeBit = arithmeticDecoder.decodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
               if (decodeBit == 1)
@@ -660,7 +660,7 @@ namespace JBig2Decoder.NETCore
               }
             }
 
-            cx = (BinaryOperation.bit32ShiftL(cx0, 11)) | (cxPtr1.nextPixel() << 10) | (BinaryOperation.bit32ShiftL(cx2, 8)) | (BinaryOperation.bit32ShiftL(cx3, 5)) | (BinaryOperation.bit32ShiftL(cx4, 2)) | (cxPtr5.nextPixel() << 1) | cxPtr6.nextPixel();
+            cx = (BinaryOperation.Bit32ShiftL(cx0, 11)) | (cxPtr1.nextPixel() << 10) | (BinaryOperation.Bit32ShiftL(cx2, 8)) | (BinaryOperation.Bit32ShiftL(cx3, 5)) | (BinaryOperation.Bit32ShiftL(cx4, 2)) | (cxPtr5.nextPixel() << 1) | cxPtr6.nextPixel();
 
             int pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.refinementRegionStats);
             if (pixel == 1)
@@ -1096,7 +1096,7 @@ namespace JBig2Decoder.NETCore
 
     public void clear(int defPixel)
     {
-      data.setAll(defPixel == 1);
+      data.SetAll(defPixel == 1);
       //data.set(0, data.size(), defPixel == 1);
     }
 
@@ -1169,7 +1169,7 @@ namespace JBig2Decoder.NETCore
         for (long row = y; row < y + srcHeight; row++)
         {
           indx = row * width + x;
-          data.or(indx, bitmap.data, srcIndx, minWidth);
+          data.Or(indx, bitmap.data, srcIndx, minWidth);
           /*for (int col = 0; col < minWidth; col++) {
               if (bitmap.data.get(srcIndx + col)) data.set(indx);
               //data.set(indx, bitmap.data.get(srcIndx + col) || data.get(indx));
@@ -1192,7 +1192,7 @@ namespace JBig2Decoder.NETCore
           indx = row * width + x;
           for (int col = 0; col < minWidth; col++)
           {
-            data.set(indx, bitmap.data.get(srcIndx + col) && data.get(indx));
+            data.Set(indx, bitmap.data.Get(srcIndx + col) && data.Get(indx));
             indx++;
           }
           srcIndx += srcWidth;
@@ -1215,7 +1215,7 @@ namespace JBig2Decoder.NETCore
             indx = row * width + x;
             for (int col = 0; col < minWidth; col++)
             {
-              data.set(indx, bitmap.data.get(srcIndx + col) ^ data.get(indx));
+              data.Set(indx, bitmap.data.Get(srcIndx + col) ^ data.Get(indx));
               indx++;
             }
             srcIndx += srcWidth;
@@ -1230,9 +1230,9 @@ namespace JBig2Decoder.NETCore
           indx = row * width + x;
           for (int col = 0; col < minWidth; col++)
           {
-            bool srcPixel = bitmap.data.get(srcIndx + col);
-            bool pixel = data.get(indx);
-            data.set(indx, pixel == srcPixel);
+            bool srcPixel = bitmap.data.Get(srcIndx + col);
+            bool pixel = data.Get(indx);
+            data.Set(indx, pixel == srcPixel);
             indx++;
           }
           srcIndx += srcWidth;
@@ -1255,7 +1255,7 @@ namespace JBig2Decoder.NETCore
             indx = row * width + x;
             for (int col = 0; col < minWidth; col++)
             {
-              data.set(indx, bitmap.data.get(srcIndx + col));
+              data.Set(indx, bitmap.data.Get(srcIndx + col));
               srcIndx++;
               indx++;
             }
@@ -1392,7 +1392,7 @@ namespace JBig2Decoder.NETCore
         long indx = row * this.width + x;
         for (long col = x; col < x + width; col++)
         {
-          if (data.get(indx)) slice.data.set(sliceIndx);
+          if (data.Get(indx)) slice.data.Set(sliceIndx);
           sliceIndx++;
           indx++;
         }
@@ -1425,7 +1425,7 @@ namespace JBig2Decoder.NETCore
     {
       long index = (row * width) + col;
 
-      data.set(index, value == 1);
+      data.Set(index, value == 1);
     }
 
     public void setPixel(long col, long row, long value)
@@ -1435,7 +1435,7 @@ namespace JBig2Decoder.NETCore
 
     public int getPixel(int col, int row)
     {
-      return data.get((row * width) + col) ? 1 : 0;
+      return data.Get((row * width) + col) ? 1 : 0;
     }
 
     public void expand(int newHeight, int defaultPixel)

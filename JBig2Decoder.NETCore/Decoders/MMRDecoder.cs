@@ -29,7 +29,7 @@ namespace JBig2Decoder.NETCore
 		{
 			while (noOfbytesRead < length)
 			{
-				reader.readbyte();
+				reader.Readbyte();
 				noOfbytesRead++;
 			}
 		}
@@ -39,12 +39,12 @@ namespace JBig2Decoder.NETCore
 			while (bufferLength < 24)
 			{
 
-				buffer = ((BinaryOperation.bit32ShiftL(buffer, 8)) | (reader.readbyte() & 0xff));
+				buffer = ((BinaryOperation.Bit32ShiftL(buffer, 8)) | (reader.Readbyte() & 0xff));
 				bufferLength += 8;
 				noOfbytesRead++;
 			}
 
-			return (BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 24))) & 0xffffff;
+			return (BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 24))) & 0xffffff;
 		}
 
 		public int get2DCode()
@@ -53,40 +53,40 @@ namespace JBig2Decoder.NETCore
 
 			if (bufferLength == 0)
 			{
-				buffer = (reader.readbyte() & 0xff);
+				buffer = (reader.Readbyte() & 0xff);
 
 				bufferLength = 8;
 
 				noOfbytesRead++;
 
-				int lookup = (int)((BinaryOperation.bit32ShiftR(buffer, 1)) & 0x7f);
+				int lookup = (int)((BinaryOperation.Bit32ShiftR(buffer, 1)) & 0x7f);
 
 				tuple0 = twoDimensionalTable1[lookup, 0];
 				tuple1 = twoDimensionalTable1[lookup, 1];
 			}
 			else if (bufferLength == 8)
 			{
-				int lookup = (int)((BinaryOperation.bit32ShiftR(buffer, 1)) & 0x7f);
+				int lookup = (int)((BinaryOperation.Bit32ShiftR(buffer, 1)) & 0x7f);
 				tuple0 = twoDimensionalTable1[lookup, 0];
 				tuple1 = twoDimensionalTable1[lookup, 1];
 			}
 			else
 			{
-				int lookup = (int)((BinaryOperation.bit32ShiftL(buffer, (int)(7 - bufferLength))) & 0x7f);
+				int lookup = (int)((BinaryOperation.Bit32ShiftL(buffer, (int)(7 - bufferLength))) & 0x7f);
 
 				tuple0 = twoDimensionalTable1[lookup, 0];
 				tuple1 = twoDimensionalTable1[lookup, 1];
 				if (tuple0 < 0 || tuple0 > (int)bufferLength)
 				{
-					int right = (reader.readbyte() & 0xff);
+					int right = (reader.Readbyte() & 0xff);
 
-					long left = (BinaryOperation.bit32ShiftL(buffer, 8));
+					long left = (BinaryOperation.Bit32ShiftL(buffer, 8));
 
 					buffer = left | right;
 					bufferLength += 8;
 					noOfbytesRead++;
 
-					int look = (int)(BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 7)) & 0x7f);
+					int look = (int)(BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 7)) & 0x7f);
 
 					tuple0 = twoDimensionalTable1[look, 0];
 					tuple1 = twoDimensionalTable1[look, 1];
@@ -108,21 +108,21 @@ namespace JBig2Decoder.NETCore
 
 			if (bufferLength == 0)
 			{
-				buffer = (reader.readbyte() & 0xff);
+				buffer = (reader.Readbyte() & 0xff);
 				bufferLength = 8;
 				noOfbytesRead++;
 			}
 			while (true)
 			{
-				if (bufferLength >= 7 && ((BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 7))) & 0x7f) == 0)
+				if (bufferLength >= 7 && ((BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 7))) & 0x7f) == 0)
 				{
 					if (bufferLength <= 12)
 					{
-						code = BinaryOperation.bit32ShiftL(buffer, (int)(12 - bufferLength));
+						code = BinaryOperation.Bit32ShiftL(buffer, (int)(12 - bufferLength));
 					}
 					else
 					{
-						code = BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 12));
+						code = BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 12));
 					}
 
 					tuple0 = whiteTable1[(int)(code & 0x1f), 0];
@@ -132,11 +132,11 @@ namespace JBig2Decoder.NETCore
 				{
 					if (bufferLength <= 9)
 					{
-						code = BinaryOperation.bit32ShiftL(buffer, (int)(9 - bufferLength));
+						code = BinaryOperation.Bit32ShiftL(buffer, (int)(9 - bufferLength));
 					}
 					else
 					{
-						code = BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 9));
+						code = BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 9));
 					}
 
 					int lookup = (int)(code & 0x1ff);
@@ -160,7 +160,7 @@ namespace JBig2Decoder.NETCore
 				{
 					break;
 				}
-				buffer = ((BinaryOperation.bit32ShiftL(buffer, 8)) | reader.readbyte() & 0xff);
+				buffer = ((BinaryOperation.Bit32ShiftL(buffer, 8)) | reader.Readbyte() & 0xff);
 				bufferLength += 8;
 				noOfbytesRead++;
 			}
@@ -177,21 +177,21 @@ namespace JBig2Decoder.NETCore
 
 			if (bufferLength == 0)
 			{
-				buffer = (reader.readbyte() & 0xff);
+				buffer = (reader.Readbyte() & 0xff);
 				bufferLength = 8;
 				noOfbytesRead++;
 			}
 			while (true)
 			{
-				if (bufferLength >= 6 && ((BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 6))) & 0x3f) == 0)
+				if (bufferLength >= 6 && ((BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 6))) & 0x3f) == 0)
 				{
 					if (bufferLength <= 13)
 					{
-						code = BinaryOperation.bit32ShiftL(buffer, (int)(13 - bufferLength));
+						code = BinaryOperation.Bit32ShiftL(buffer, (int)(13 - bufferLength));
 					}
 					else
 					{
-						code = BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 13));
+						code = BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 13));
 					}
 					tuple0 = blackTable1[(int)(code & 0x7f), 0];
 					tuple1 = blackTable1[(int)(code & 0x7f), 1];
@@ -200,11 +200,11 @@ namespace JBig2Decoder.NETCore
 				{
 					if (bufferLength <= 12)
 					{
-						code = BinaryOperation.bit32ShiftL(buffer, (int)(12 - bufferLength));
+						code = BinaryOperation.Bit32ShiftL(buffer, (int)(12 - bufferLength));
 					}
 					else
 					{
-						code = BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 12));
+						code = BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 12));
 					}
 
 					int lookup = (int)((code & 0xff) - 64);
@@ -223,11 +223,11 @@ namespace JBig2Decoder.NETCore
 				{
 					if (bufferLength <= 6)
 					{
-						code = BinaryOperation.bit32ShiftL(buffer, (int)(6 - bufferLength));
+						code = BinaryOperation.Bit32ShiftL(buffer, (int)(6 - bufferLength));
 					}
 					else
 					{
-						code = BinaryOperation.bit32ShiftR(buffer, (int)(bufferLength - 6));
+						code = BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 6));
 					}
 
 					int lookup = (int)(code & 0x3f);
@@ -251,7 +251,7 @@ namespace JBig2Decoder.NETCore
 				{
 					break;
 				}
-				buffer = ((BinaryOperation.bit32ShiftL(buffer, 8)) | (reader.readbyte() & 0xff));
+				buffer = ((BinaryOperation.Bit32ShiftL(buffer, 8)) | (reader.Readbyte() & 0xff));
 				bufferLength += 8;
 				noOfbytesRead++;
 			}

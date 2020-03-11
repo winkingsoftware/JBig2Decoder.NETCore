@@ -430,7 +430,7 @@ namespace JBig2Decoder.NETCore
 			short[] symbolDictionaryFlagsField = new short[2];
 			decoder.readbyte(symbolDictionaryFlagsField);
 
-			int flags = BinaryOperation.getInt16(symbolDictionaryFlagsField);
+			int flags = BinaryOperation.GetInt16(symbolDictionaryFlagsField);
 			symbolDictionaryFlags.setFlags(flags);
 
 			if (JBIG2StreamDecoder.debug)
@@ -474,7 +474,7 @@ namespace JBig2Decoder.NETCore
 			short[] noOfExportedSymbolsField = new short[4];
 			decoder.readbyte(noOfExportedSymbolsField);
 
-			int noOfExportedSymbols = BinaryOperation.getInt32(noOfExportedSymbolsField);
+			int noOfExportedSymbols = BinaryOperation.GetInt32(noOfExportedSymbolsField);
 			this.noOfExportedSymbols = noOfExportedSymbols;
 
 			if (JBIG2StreamDecoder.debug)
@@ -484,7 +484,7 @@ namespace JBig2Decoder.NETCore
 			short[] noOfNewSymbolsField = new short[4];
 			decoder.readbyte(noOfNewSymbolsField);
 
-			int noOfNewSymbols = BinaryOperation.getInt32(noOfNewSymbolsField);
+			int noOfNewSymbols = BinaryOperation.GetInt32(noOfNewSymbolsField);
 			this.noOfNewSymbols = noOfNewSymbols;
 
 			if (JBIG2StreamDecoder.debug)

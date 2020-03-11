@@ -20,12 +20,12 @@ namespace JBig2Decoder.NETCore
 			w = new long[wcount];
 		}
 
-		public long size()
+		public long Size()
 		{
 			return length;
 		}
 
-		public void setAll(bool value)
+		public void SetAll(bool value)
 		{
 			if (value)
 				for (long i = 0; i < w.Length; i++)
@@ -40,25 +40,25 @@ namespace JBig2Decoder.NETCore
 
 		}
 
-		public void set(long start, long end, bool value)
+		public void Set(long start, long end, bool value)
 		{
 			if (value)
 			{
 				for (long i = start; i < end; i++)
 				{
-					set(i);
+					Set(i);
 				}
 			}
 			else
 			{
 				for (long i = start; i < end; i++)
 				{
-					clear(i);
+					Clear(i);
 				}
 			}
 		}
 
-		public void or(long startindex, FastBitSet set, long setStartIndex, long length)
+		public void Or(long startindex, FastBitSet set, long setStartIndex, long length)
 		{
 			long shift = startindex - setStartIndex;
 			long k = set.w[setStartIndex >> pot];
@@ -90,25 +90,25 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public void set(long index, bool value)
+		public void Set(long index, bool value)
 		{
-			if (value) set(index);
-			else clear(index);
+			if (value) Set(index);
+			else Clear(index);
 		}
 
-		public void set(long index)
+		public void Set(long index)
 		{
 			long windex = (long)((ulong)index >> pot);
 			w[windex] |= (1L << (int)index);
 		}
 
-		public void clear(long index)
+		public void Clear(long index)
 		{
 			long windex = (long)((ulong)index >> pot);
 			w[windex] &= ~(1L << (int)index);
 		}
 
-		public bool get(long index)
+		public bool Get(long index)
 		{
 			long windex = (long)((ulong)index >> pot);
 			return ((w[windex] & (1L << (int)index)) != 0);

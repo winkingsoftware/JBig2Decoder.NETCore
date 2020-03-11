@@ -77,7 +77,7 @@ namespace JBig2Decoder.NETCore
       }*/
       //int pixel = bitmap.getPixel(x, y);
       //x++;
-      return bitmap.data.get((int)(count + x++)) ? 1 : 0;
+      return bitmap.data.Get((int)(count + x++)) ? 1 : 0;
 
 
       //return pixel;

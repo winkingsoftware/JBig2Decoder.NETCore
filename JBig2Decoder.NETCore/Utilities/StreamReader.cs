@@ -17,14 +17,14 @@ namespace JBig2Decoder.NETCore
 			this.data = data;
 		}
 
-		public short readbyte()
+		public short Readbyte()
 		{
 			short bite = (short)(data[bytePointer++] & 255);
 
 			return bite;
 		}
 
-		public void readbyte(short[] buf)
+		public void Readbyte(short[] buf)
 		{
 			for (int i = 0; i < buf.Length; i++)
 			{
@@ -32,9 +32,9 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public int readBit()
+		public int ReadBit()
 		{
-			short buf = readbyte();
+			short buf = Readbyte();
 			short mask = (short)(1 << bitPointer);
 
 			int bit = (buf & mask) >> bitPointer;
@@ -46,25 +46,25 @@ namespace JBig2Decoder.NETCore
 			}
 			else
 			{
-				movePointer(-1);
+				MovePointer(-1);
 			}
 
 			return bit;
 		}
 
-		public int readBits(long num)
+		public int ReadBits(long num)
 		{
 			int result = 0;
 
 			for (int i = 0; i < num; i++)
 			{
-				result = (result << 1) | readBit();
+				result = (result << 1) | ReadBit();
 			}
 
 			return result;
 		}
 
-		public void movePointer(int ammount)
+		public void MovePointer(int ammount)
 		{
 			bytePointer += ammount;
 		}
@@ -72,10 +72,10 @@ namespace JBig2Decoder.NETCore
 		public void consumeRemainingBits()
 		{
 			if (bitPointer != 7)
-				readBits(bitPointer + 1);
+				ReadBits(bitPointer + 1);
 		}
 
-		public bool isFinished()
+		public bool IsFinished()
 		{
 			return bytePointer == data.Length;
 		}

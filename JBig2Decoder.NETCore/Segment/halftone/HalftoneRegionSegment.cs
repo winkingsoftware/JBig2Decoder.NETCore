@@ -24,30 +24,30 @@ namespace JBig2Decoder.NETCore
 
       short[] buf = new short[4];
       decoder.readbyte(buf);
-      int gridWidth = BinaryOperation.getInt32(buf);
+      int gridWidth = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
       decoder.readbyte(buf);
-      int gridHeight = BinaryOperation.getInt32(buf);
+      int gridHeight = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
       decoder.readbyte(buf);
-      int gridX = BinaryOperation.getInt32(buf);
+      int gridX = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
       decoder.readbyte(buf);
-      int gridY = BinaryOperation.getInt32(buf);
+      int gridY = BinaryOperation.GetInt32(buf);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("grid pos and size = " + gridX + ',' + gridY + ' ' + gridWidth + ',' + gridHeight);
 
       buf = new short[2];
       decoder.readbyte(buf);
-      int stepX = BinaryOperation.getInt16(buf);
+      int stepX = BinaryOperation.GetInt16(buf);
 
       buf = new short[2];
       decoder.readbyte(buf);
-      int stepY = BinaryOperation.getInt16(buf);
+      int stepY = BinaryOperation.GetInt16(buf);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("step size = " + stepX + ',' + stepY);

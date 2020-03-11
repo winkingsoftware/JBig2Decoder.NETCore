@@ -129,12 +129,12 @@ namespace JBig2Decoder.NETCore
 
 		public void start()
 		{
-			buffer0 = reader.readbyte();
-			buffer1 = reader.readbyte();
+			buffer0 = reader.Readbyte();
+			buffer1 = reader.Readbyte();
 
-			c = BinaryOperation.bit32ShiftL((buffer0 ^ 0xff), 16);
+			c = BinaryOperation.Bit32ShiftL((buffer0 ^ 0xff), 16);
 			readbyte();
-			c = BinaryOperation.bit32ShiftL(c, 7);
+			c = BinaryOperation.Bit32ShiftL(c, 7);
 			counter -= 7;
 			a = 0x80000000l;
 		}
@@ -158,7 +158,7 @@ namespace JBig2Decoder.NETCore
 								value = 0;
 								for (int i = 0; i < 32; i++)
 								{
-									value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+									value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 								}
 								value += 4436;
 							}
@@ -167,7 +167,7 @@ namespace JBig2Decoder.NETCore
 								value = 0;
 								for (int i = 0; i < 12; i++)
 								{
-									value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+									value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 								}
 								value += 340;
 							}
@@ -177,7 +177,7 @@ namespace JBig2Decoder.NETCore
 							value = 0;
 							for (int i = 0; i < 8; i++)
 							{
-								value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+								value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 							}
 							value += 84;
 						}
@@ -187,7 +187,7 @@ namespace JBig2Decoder.NETCore
 						value = 0;
 						for (int i = 0; i < 6; i++)
 						{
-							value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+							value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 						}
 						value += 20;
 					}
@@ -195,16 +195,16 @@ namespace JBig2Decoder.NETCore
 				else
 				{
 					value = decodeIntBit(stats);
-					value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
-					value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
-					value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 					value += 4;
 				}
 			}
 			else
 			{
 				value = decodeIntBit(stats);
-				value = BinaryOperation.bit32ShiftL(value, 1) | decodeIntBit(stats);
+				value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
 			}
 
 			int decodedInt;
@@ -230,7 +230,7 @@ namespace JBig2Decoder.NETCore
 			for (long i = 0; i < codeLen; i++)
 			{
 				int bit = decodeBit(previous, stats);
-				previous = BinaryOperation.bit32ShiftL(previous, 1) | bit;
+				previous = BinaryOperation.Bit32ShiftL(previous, 1) | bit;
 			}
 
 			return previous - (1 << (int)codeLen);
@@ -238,7 +238,7 @@ namespace JBig2Decoder.NETCore
 
 		public int decodeBit(long context, ArithmeticDecoderStats stats)
 		{
-			int iCX = BinaryOperation.bit8Shift(stats.getContextCodingTableValue((int)context), 1, BinaryOperation.RIGHT_SHIFT);
+			int iCX = BinaryOperation.Bit8Shift(stats.getContextCodingTableValue((int)context), 1, BinaryOperation.RIGHT_SHIFT);
 			int mpsCX = stats.getContextCodingTableValue((int)context) & 1;
 			int qe = qeTable[iCX];
 
@@ -277,8 +277,8 @@ namespace JBig2Decoder.NETCore
 							readbyte();
 						}
 
-						a = BinaryOperation.bit32ShiftL(a, 1);
-						c = BinaryOperation.bit32ShiftL(c, 1);
+						a = BinaryOperation.Bit32ShiftL(a, 1);
+						c = BinaryOperation.Bit32ShiftL(c, 1);
 
 						counter--;
 					} while ((a & 0x80000000) == 0);
@@ -314,8 +314,8 @@ namespace JBig2Decoder.NETCore
 						readbyte();
 					}
 
-					a = BinaryOperation.bit32ShiftL(a, 1);
-					c = BinaryOperation.bit32ShiftL(c, 1);
+					a = BinaryOperation.Bit32ShiftL(a, 1);
+					c = BinaryOperation.Bit32ShiftL(c, 1);
 
 					counter--;
 				} while ((a & 0x80000000) == 0);
@@ -334,43 +334,39 @@ namespace JBig2Decoder.NETCore
 				else
 				{
 					buffer0 = buffer1;
-					buffer1 = reader.readbyte();
-					c = c + 0xfe00 - (BinaryOperation.bit32ShiftL(buffer0, 9));
+					buffer1 = reader.Readbyte();
+					c = c + 0xfe00 - (BinaryOperation.Bit32ShiftL(buffer0, 9));
 					counter = 7;
 				}
 			}
 			else
 			{
 				buffer0 = buffer1;
-				buffer1 = reader.readbyte();
-				c = c + 0xff00 - (BinaryOperation.bit32ShiftL(buffer0, 8));
+				buffer1 = reader.Readbyte();
+				c = c + 0xff00 - (BinaryOperation.Bit32ShiftL(buffer0, 8));
 				counter = 8;
 			}
 		}
 
 		private int decodeIntBit(ArithmeticDecoderStats stats)
 		{
-			int bit;
 
-			bit = decodeBit(previous, stats);
+			int bit = decodeBit(previous, stats);
 			if (previous < 0x100)
 			{
-				previous = BinaryOperation.bit32ShiftL(previous, 1) | bit;
+				previous = BinaryOperation.Bit32ShiftL(previous, 1) | bit;
 			}
 			else
 			{
-				previous = (((BinaryOperation.bit32ShiftL(previous, 1)) | bit) & 0x1ff) | 0x100;
+				previous = (((BinaryOperation.Bit32ShiftL(previous, 1)) | bit) & 0x1ff) | 0x100;
 			}
 			return bit;
 		}
 
-		int[] qeTable = { 0x56010000, 0x34010000, 0x18010000, 0x0AC10000, 0x05210000, 0x02210000, 0x56010000, 0x54010000, 0x48010000, 0x38010000, 0x30010000, 0x24010000, 0x1C010000, 0x16010000, 0x56010000, 0x54010000, 0x51010000, 0x48010000, 0x38010000, 0x34010000, 0x30010000, 0x28010000, 0x24010000, 0x22010000, 0x1C010000, 0x18010000, 0x16010000, 0x14010000, 0x12010000, 0x11010000, 0x0AC10000, 0x09C10000, 0x08A10000, 0x05210000, 0x04410000, 0x02A10000, 0x02210000, 0x01410000, 0x01110000, 0x00850000, 0x00490000, 0x00250000, 0x00150000, 0x00090000, 0x00050000, 0x00010000,
+		readonly int[] qeTable = { 0x56010000, 0x34010000, 0x18010000, 0x0AC10000, 0x05210000, 0x02210000, 0x56010000, 0x54010000, 0x48010000, 0x38010000, 0x30010000, 0x24010000, 0x1C010000, 0x16010000, 0x56010000, 0x54010000, 0x51010000, 0x48010000, 0x38010000, 0x34010000, 0x30010000, 0x28010000, 0x24010000, 0x22010000, 0x1C010000, 0x18010000, 0x16010000, 0x14010000, 0x12010000, 0x11010000, 0x0AC10000, 0x09C10000, 0x08A10000, 0x05210000, 0x04410000, 0x02A10000, 0x02210000, 0x01410000, 0x01110000, 0x00850000, 0x00490000, 0x00250000, 0x00150000, 0x00090000, 0x00050000, 0x00010000,
 			0x56010000 };
-
-		int[] nmpsTable = { 1, 2, 3, 4, 5, 38, 7, 8, 9, 10, 11, 12, 13, 29, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 45, 46 };
-
-		int[] nlpsTable = { 1, 6, 9, 12, 29, 33, 6, 14, 14, 14, 17, 18, 20, 21, 14, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46 };
-
-		int[] switchTable = { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		readonly int[] nmpsTable = { 1, 2, 3, 4, 5, 38, 7, 8, 9, 10, 11, 12, 13, 29, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 45, 46 };
+		readonly int[] nlpsTable = { 1, 6, 9, 12, 29, 33, 6, 14, 14, 14, 17, 18, 20, 21, 14, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 46 };
+		readonly int[] switchTable = { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	}
 }

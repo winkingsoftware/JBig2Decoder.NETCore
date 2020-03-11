@@ -6,7 +6,7 @@ namespace JBig2Decoder.NETCore
 {
   public class Helpers
   {
-    private long[][] convertToJaggedArray(long[,] multiArray, int numOfColumns, int numOfRows)
+    private long[][] ConvertToJaggedArray(long[,] multiArray, int numOfColumns, int numOfRows)
     {
       long[][] jaggedArray = new long[numOfColumns][];
 
