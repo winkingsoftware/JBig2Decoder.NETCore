@@ -11,6 +11,7 @@ JBig2Decoder.NET is a .Net Port of the JPedal JBig2Decoder Implementation.</Desc
 JBig2Decoder.NET is a .Net Port of the JPedal JBig2Decoder Implementation.</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/winkingsoftware/JBig2Decoder.NETCore</RepositoryUrl>
     <PackageProjectUrl>https://github.com/winkingsoftware/JBig2Decoder.NETCore</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

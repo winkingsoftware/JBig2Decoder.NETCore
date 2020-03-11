@@ -17,22 +17,22 @@ namespace JBig2Decoder.NETCore
     {
       short[] buff = new short[4];
       decoder.readbyte(buff);
-      regionBitmapWidth = BinaryOperation.getInt32(buff);
+      regionBitmapWidth = BinaryOperation.GetInt32(buff);
 
       buff = new short[4];
       decoder.readbyte(buff);
-      regionBitmapHeight = BinaryOperation.getInt32(buff);
+      regionBitmapHeight = BinaryOperation.GetInt32(buff);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("Bitmap size = " + regionBitmapWidth + 'x' + regionBitmapHeight);
 
       buff = new short[4];
       decoder.readbyte(buff);
-      regionBitmapXLocation = BinaryOperation.getInt32(buff);
+      regionBitmapXLocation = BinaryOperation.GetInt32(buff);
 
       buff = new short[4];
       decoder.readbyte(buff);
-      regionBitmapYLocation = BinaryOperation.getInt32(buff);
+      regionBitmapYLocation = BinaryOperation.GetInt32(buff);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("Bitmap location = " + regionBitmapXLocation + ',' + regionBitmapYLocation);

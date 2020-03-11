@@ -24,7 +24,7 @@ namespace JBig2Decoder.NETCore
 
     public void movePointer(int i)
     {
-      reader.movePointer(i);
+      reader.MovePointer(i);
     }
     public void setGlobalData(byte[] data)
     {
@@ -69,7 +69,7 @@ namespace JBig2Decoder.NETCore
            * There's no global data, so move the file pointer back to the
            * start of the stream
            */
-          reader.movePointer(-8);
+          reader.MovePointer(-8);
         }
       }
       else
@@ -171,7 +171,7 @@ namespace JBig2Decoder.NETCore
     private void readSegments()
     {
       bool finished = false;
-      while (!reader.isFinished() && !finished)
+      while (!reader.IsFinished() && !finished)
       {
 
         SegmentHeader segmentHeader = new SegmentHeader();
@@ -403,12 +403,12 @@ namespace JBig2Decoder.NETCore
       if (isPageAssociationSizeSet)
       { // field is 4 bytes long
         short[] buf = new short[4];
-        reader.readbyte(buf);
-        pageAssociation = BinaryOperation.getInt32(buf);
+        reader.Readbyte(buf);
+        pageAssociation = BinaryOperation.GetInt32(buf);
       }
       else
       { // field is 1 byte long
-        pageAssociation = reader.readbyte();
+        pageAssociation = reader.Readbyte();
       }
 
       segmentHeader.setPageAssociation(pageAssociation);
@@ -419,9 +419,9 @@ namespace JBig2Decoder.NETCore
     private void handleSegmentNumber(SegmentHeader segmentHeader)
     {
       short[] segmentbytes = new short[4];
-      reader.readbyte(segmentbytes);
+      reader.Readbyte(segmentbytes);
 
-      int segmentNumber = BinaryOperation.getInt32(segmentbytes);
+      int segmentNumber = BinaryOperation.GetInt32(segmentbytes);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("SegmentNumber = " + segmentNumber);
@@ -429,13 +429,13 @@ namespace JBig2Decoder.NETCore
     }
     private void handleSegmentHeaderFlags(SegmentHeader segmentHeader)
     {
-      short segmentHeaderFlags = reader.readbyte();
+      short segmentHeaderFlags = reader.Readbyte();
       // System.out.println("SegmentHeaderFlags = " + SegmentHeaderFlags);
       segmentHeader.setSegmentHeaderFlags(segmentHeaderFlags);
     }
     private void handleSegmentReferredToCountAndRententionFlags(SegmentHeader segmentHeader)
     {
-      short referedToSegmentCountAndRetentionFlags = reader.readbyte();
+      short referedToSegmentCountAndRetentionFlags = reader.Readbyte();
 
       int referredToSegmentCount = (referedToSegmentCountAndRetentionFlags & 224) >> 5; // 224
                                                                                         // =
@@ -461,10 +461,10 @@ namespace JBig2Decoder.NETCore
 
         for (int i = 1; i < 4; i++)
           // add the next 3 bytes to the array
-          longFormCountAndFlags[i] = reader.readbyte();
+          longFormCountAndFlags[i] = reader.Readbyte();
 
         /** get the count of the referred to Segments */
-        referredToSegmentCount = BinaryOperation.getInt32(longFormCountAndFlags);
+        referredToSegmentCount = BinaryOperation.GetInt32(longFormCountAndFlags);
 
         /** calculate the number of bytes in this field */
         int noOfbytesInField = (int)Math.Ceiling(4 + ((referredToSegmentCount + 1) / 8d));
@@ -472,7 +472,7 @@ namespace JBig2Decoder.NETCore
 
         int noOfRententionFlagbytes = noOfbytesInField - 4;
         retentionFlags = new short[noOfRententionFlagbytes];
-        reader.readbyte(retentionFlags);
+        reader.Readbyte(retentionFlags);
 
       }
       else
@@ -507,15 +507,15 @@ namespace JBig2Decoder.NETCore
       if (segmentNumber <= 256)
       {
         for (int i = 0; i < referredToSegmentCount; i++)
-          referredToSegments[i] = reader.readbyte();
+          referredToSegments[i] = reader.Readbyte();
       }
       else if (segmentNumber <= 65536)
       {
         short[] buf = new short[2];
         for (int i = 0; i < referredToSegmentCount; i++)
         {
-          reader.readbyte(buf);
-          referredToSegments[i] = BinaryOperation.getInt16(buf);
+          reader.Readbyte(buf);
+          referredToSegments[i] = BinaryOperation.GetInt16(buf);
         }
       }
       else
@@ -523,8 +523,8 @@ namespace JBig2Decoder.NETCore
         short[] buf = new short[4];
         for (int i = 0; i < referredToSegmentCount; i++)
         {
-          reader.readbyte(buf);
-          referredToSegments[i] = BinaryOperation.getInt32(buf);
+          reader.Readbyte(buf);
+          referredToSegments[i] = BinaryOperation.GetInt32(buf);
         }
       }
 
@@ -542,15 +542,15 @@ namespace JBig2Decoder.NETCore
     private int getNoOfPages()
     {
       short[] noOfPages = new short[4];
-      reader.readbyte(noOfPages);
-      return BinaryOperation.getInt32(noOfPages);
+      reader.Readbyte(noOfPages);
+      return BinaryOperation.GetInt32(noOfPages);
     }
     private void handleSegmentDataLength(SegmentHeader segmentHeader)
     {
       short[] buf = new short[4];
-      reader.readbyte(buf);
+      reader.Readbyte(buf);
 
-      int dateLength = BinaryOperation.getInt32(buf);
+      int dateLength = BinaryOperation.GetInt32(buf);
       segmentHeader.setDataLength(dateLength);
 
       if (JBIG2StreamDecoder.debug)
@@ -558,7 +558,7 @@ namespace JBig2Decoder.NETCore
     }
     private void setFileHeaderFlags()
     {
-      short headerFlags = reader.readbyte();
+      short headerFlags = reader.Readbyte();
 
       if ((headerFlags & 0xfc) != 0)
       {
@@ -575,21 +575,21 @@ namespace JBig2Decoder.NETCore
     {
       short[] controlHeader = new short[] { 151, 74, 66, 50, 13, 10, 26, 10 };
       short[] actualHeader = new short[8];
-      reader.readbyte(actualHeader);
+      reader.Readbyte(actualHeader);
 
       return controlHeader.SequenceEqual(actualHeader);
     }
     public int readBits(long num)
     {
-      return reader.readBits(num);
+      return reader.ReadBits(num);
     }
     public int readBit()
     {
-      return reader.readBit();
+      return reader.ReadBit();
     }
     public void readbyte(short[] buff)
     {
-      reader.readbyte(buff);
+      reader.Readbyte(buff);
     }
     public void consumeRemainingBits()
     {
@@ -597,7 +597,7 @@ namespace JBig2Decoder.NETCore
     }
     public short readbyte()
     {
-      return reader.readbyte();
+      return reader.Readbyte();
     }
     public void appendBitmap(JBIG2Bitmap bitmap)
     {

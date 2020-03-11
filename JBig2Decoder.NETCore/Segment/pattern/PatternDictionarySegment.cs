@@ -29,7 +29,7 @@ namespace JBig2Decoder.NETCore
 
 			short[] buf = new short[4];
 			decoder.readbyte(buf);
-			grayMax = BinaryOperation.getInt32(buf);
+			grayMax = BinaryOperation.GetInt32(buf);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("grey max = " + grayMax);

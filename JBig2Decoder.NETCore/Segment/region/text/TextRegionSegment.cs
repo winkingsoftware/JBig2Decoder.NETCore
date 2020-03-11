@@ -31,7 +31,7 @@ namespace JBig2Decoder.NETCore
 
 			short[] buff = new short[4];
 			decoder.readbyte(buff);
-			long noOfSymbolInstances = BinaryOperation.getInt32(buff);
+			long noOfSymbolInstances = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("noOfSymbolInstances = " + noOfSymbolInstances);
@@ -328,7 +328,7 @@ namespace JBig2Decoder.NETCore
 			short[] textRegionFlagsField = new short[2];
 			decoder.readbyte(textRegionFlagsField);
 
-			int flags = BinaryOperation.getInt16(textRegionFlagsField);
+			int flags = BinaryOperation.GetInt16(textRegionFlagsField);
 			textRegionFlags.setFlags(flags);
 
 			if (JBIG2StreamDecoder.debug)
@@ -341,7 +341,7 @@ namespace JBig2Decoder.NETCore
 				short[] textRegionHuffmanFlagsField = new short[2];
 				decoder.readbyte(textRegionHuffmanFlagsField);
 
-				flags = BinaryOperation.getInt16(textRegionHuffmanFlagsField);
+				flags = BinaryOperation.GetInt16(textRegionHuffmanFlagsField);
 				textRegionHuffmanFlags.setFlags(flags);
 
 				if (JBIG2StreamDecoder.debug)

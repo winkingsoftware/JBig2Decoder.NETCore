@@ -24,7 +24,7 @@ namespace JBig2Decoder.NETCore
       {
         for (; length < table[i, 1]; length++)
         {
-          int bit = reader.readBit();
+          int bit = reader.ReadBit();
           prefix = (prefix << 1) | bit;
         }
 
@@ -37,12 +37,12 @@ namespace JBig2Decoder.NETCore
           long decodedInt;
           if (table[i, 2] == jbig2HuffmanLOW)
           {
-            int readBits = reader.readBits(32);
+            int readBits = reader.ReadBits(32);
             decodedInt = table[i, 0] - readBits;
           }
           else if (table[i, 2] > 0)
           {
-            int readBits = reader.readBits(table[i, 2]);
+            int readBits = reader.ReadBits(table[i, 2]);
             decodedInt = table[i, 0] + readBits;
           }
           else
@@ -63,7 +63,7 @@ namespace JBig2Decoder.NETCore
       {
         for (; length < table[i][1]; length++)
         {
-          int bit = reader.readBit();
+          int bit = reader.ReadBit();
           prefix = (prefix << 1) | bit;
         }
 
@@ -76,12 +76,12 @@ namespace JBig2Decoder.NETCore
           long decodedInt;
           if (table[i][2] == jbig2HuffmanLOW)
           {
-            int readBits = reader.readBits(32);
+            int readBits = reader.ReadBits(32);
             decodedInt = table[i][0] - readBits;
           }
           else if (table[i][2] > 0)
           {
-            int readBits = reader.readBits(table[i][2]);
+            int readBits = reader.ReadBits(table[i][2]);
             decodedInt = table[i][0] + readBits;
           }
           else

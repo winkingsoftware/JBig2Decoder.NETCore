@@ -35,22 +35,22 @@ namespace JBig2Decoder.NETCore
 
 			short[] buff = new short[4];
 			decoder.readbyte(buff);
-			pageBitmapWidth = BinaryOperation.getInt32(buff);
+			pageBitmapWidth = BinaryOperation.GetInt32(buff);
 
 			buff = new short[4];
 			decoder.readbyte(buff);
-			pageBitmapHeight = BinaryOperation.getInt32(buff);
+			pageBitmapHeight = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Bitmap size = " + pageBitmapWidth + 'x' + pageBitmapHeight);
 
 			buff = new short[4];
 			decoder.readbyte(buff);
-			xResolution = BinaryOperation.getInt32(buff);
+			xResolution = BinaryOperation.GetInt32(buff);
 
 			buff = new short[4];
 			decoder.readbyte(buff);
-			yResolution = BinaryOperation.getInt32(buff);
+			yResolution = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Resolution = " + xResolution + 'x' + yResolution);
@@ -65,7 +65,7 @@ namespace JBig2Decoder.NETCore
 
 			buff = new short[2];
 			decoder.readbyte(buff);
-			pageStriping = BinaryOperation.getInt16(buff);
+			pageStriping = BinaryOperation.GetInt16(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Page Striping = " + pageStriping);
