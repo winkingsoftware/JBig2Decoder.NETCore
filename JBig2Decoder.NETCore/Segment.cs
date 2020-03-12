@@ -44,15 +44,15 @@ namespace JBig2Decoder.NETCore
 		public Segment(JBIG2StreamDecoder streamDecoder)
 		{
 			this.decoder = streamDecoder;
-			huffmanDecoder = decoder.getHuffmanDecoder();
-			arithmeticDecoder = decoder.getArithmeticDecoder();
-			mmrDecoder = decoder.getMMRDecoder();
+			huffmanDecoder = decoder.GetHuffmanDecoder();
+			arithmeticDecoder = decoder.GetArithmeticDecoder();
+			mmrDecoder = decoder.GetMMRDecoder();
 
 		}
-		protected short readATValue()
+		protected short ReadATValue()
 		{
 			short atValue;
-			short c0 = atValue = decoder.readbyte();
+			short c0 = atValue = decoder.Readbyte();
 
 			if ((c0 & 0x80) != 0)
 			{
@@ -62,16 +62,16 @@ namespace JBig2Decoder.NETCore
 			return atValue;
 		}
 
-		public SegmentHeader getSegmentHeader()
+		public SegmentHeader GetSegmentHeader()
 		{
 			return segmentHeader;
 		}
 
-		public void setSegmentHeader(SegmentHeader segmentHeader)
+		public void SetSegmentHeader(SegmentHeader segmentHeader)
 		{
 			this.segmentHeader = segmentHeader;
 		}
 
-		public abstract void readSegment();
+		public abstract void ReadSegment();
 	}
 }

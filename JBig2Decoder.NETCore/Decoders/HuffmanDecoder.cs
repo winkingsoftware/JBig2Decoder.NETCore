@@ -17,7 +17,7 @@ namespace JBig2Decoder.NETCore
       this.reader = reader;
     }
 
-    public DecodeIntResult decodeInt(long[,] table)
+    public DecodeIntResult DecodeInt(long[,] table)
     {
       int length = 0, prefix = 0;
       for (int i = 0; table[i, 2] != jbig2HuffmanEOT; i++)
@@ -55,7 +55,7 @@ namespace JBig2Decoder.NETCore
 
       return new DecodeIntResult(-1, false);
     }
-    public DecodeIntResult decodeInt(long[][] table)
+    public DecodeIntResult DecodeInt(long[][] table)
     {
       int length = 0, prefix = 0;
 
@@ -94,7 +94,7 @@ namespace JBig2Decoder.NETCore
 
       return new DecodeIntResult(-1, false);
     }
-    public static long[][] buildTable(long[][] table, int length)
+    public static long[][] BuildTable(long[][] table, int length)
     {
       long i, j, k, prefix;
       long[] tab;

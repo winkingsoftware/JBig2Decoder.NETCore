@@ -19,25 +19,25 @@ namespace JBig2Decoder.NETCore
 			this.inlineImage = inlineImage;
 		}
 
-		public override void readSegment()
+		public override void ReadSegment()
 		{
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("==== Reading Text Region ====");
 
-			base.readSegment();
+			base.ReadSegment();
 
 			/** read text region Segment flags */
-			readTextRegionFlags();
+			ReadTextRegionFlags();
 
 			short[] buff = new short[4];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			long noOfSymbolInstances = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("noOfSymbolInstances = " + noOfSymbolInstances);
 
-			int noOfReferredToSegments = segmentHeader.getReferredToSegmentCount();
-			int[] referredToSegments = segmentHeader.getReferredToSegments();
+			int noOfReferredToSegments = segmentHeader.GetReferredToSegmentCount();
+			int[] referredToSegments = segmentHeader.GetReferredToSegments();
 
 			//List codeTables = new ArrayList();
 			List<Segment> segmentsReferenced = new List<Segment>();
@@ -45,16 +45,16 @@ namespace JBig2Decoder.NETCore
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("noOfReferredToSegments = " + noOfReferredToSegments);
-			int i = 0;
+			int i; // i = 0;
 			for (i = 0; i < noOfReferredToSegments; i++)
 			{
-				Segment seg = decoder.findSegment(referredToSegments[i]);
-				int type = seg.getSegmentHeader().getSegmentType();
+				Segment seg = decoder.FindSegment(referredToSegments[i]);
+				int type = seg.GetSegmentHeader().GetSegmentType();
 
 				if (type == Segment.SYMBOL_DICTIONARY)
 				{
 					segmentsReferenced.Add(seg);
-					noOfSymbols += ((SymbolDictionarySegment)seg).getNoOfExportedSymbols();
+					noOfSymbols += ((SymbolDictionarySegment)seg).GetNoOfExportedSymbols();
 				}
 				else if (type == Segment.TABLES)
 				{
@@ -75,9 +75,9 @@ namespace JBig2Decoder.NETCore
 			JBIG2Bitmap[] symbols = new JBIG2Bitmap[noOfSymbols];
 			foreach (Segment it in segmentsReferenced)
 			{
-				if (it.getSegmentHeader().getSegmentType() == Segment.SYMBOL_DICTIONARY)
+				if (it.GetSegmentHeader().GetSegmentType() == Segment.SYMBOL_DICTIONARY)
 				{
-					JBIG2Bitmap[] bitmaps = ((SymbolDictionarySegment)it).getBitmaps();
+					JBIG2Bitmap[] bitmaps = ((SymbolDictionarySegment)it).GetBitmaps();
 					for (int j = 0; j < bitmaps.Length; j++)
 					{
 						symbols[currentSymbol] = bitmaps[j];
@@ -97,12 +97,12 @@ namespace JBig2Decoder.NETCore
 			long[,] huffmanRDYTable = null;
 			long[,] huffmanRSizeTable = null;
 
-			bool sbHuffman = textRegionFlags.getFlagValue(TextRegionFlags.SB_HUFF) != 0;
+			bool sbHuffman = textRegionFlags.GetFlagValue(TextRegionFlags.SB_HUFF) != 0;
 
 			i = 0;
 			if (sbHuffman)
 			{
-				int sbHuffFS = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_FS);
+				int sbHuffFS = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_FS);
 				if (sbHuffFS == 0)
 				{
 					huffmanFSTable = HuffmanDecoder.huffmanTableF;
@@ -116,7 +116,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffDS = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_DS);
+				int sbHuffDS = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_DS);
 				if (sbHuffDS == 0)
 				{
 					huffmanDSTable = HuffmanDecoder.huffmanTableH;
@@ -134,7 +134,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffDT = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_DT);
+				int sbHuffDT = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_DT);
 				if (sbHuffDT == 0)
 				{
 					huffmanDTTable = HuffmanDecoder.huffmanTableK;
@@ -152,7 +152,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffRDW = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDW);
+				int sbHuffRDW = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDW);
 				if (sbHuffRDW == 0)
 				{
 					huffmanRDWTable = HuffmanDecoder.huffmanTableN;
@@ -166,7 +166,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffRDH = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDH);
+				int sbHuffRDH = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDH);
 				if (sbHuffRDH == 0)
 				{
 					huffmanRDHTable = HuffmanDecoder.huffmanTableN;
@@ -180,7 +180,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffRDX = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDX);
+				int sbHuffRDX = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDX);
 				if (sbHuffRDX == 0)
 				{
 					huffmanRDXTable = HuffmanDecoder.huffmanTableN;
@@ -194,7 +194,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffRDY = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDY);
+				int sbHuffRDY = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_RDY);
 				if (sbHuffRDY == 0)
 				{
 					huffmanRDYTable = HuffmanDecoder.huffmanTableN;
@@ -208,7 +208,7 @@ namespace JBig2Decoder.NETCore
 
 				}
 
-				int sbHuffRSize = textRegionHuffmanFlags.getFlagValue(TextRegionHuffmanFlags.SB_HUFF_RSIZE);
+				int sbHuffRSize = textRegionHuffmanFlags.GetFlagValue(TextRegionHuffmanFlags.SB_HUFF_RSIZE);
 				if (sbHuffRSize == 0)
 				{
 					huffmanRSizeTable = HuffmanDecoder.huffmanTableA;
@@ -224,22 +224,22 @@ namespace JBig2Decoder.NETCore
 			if (sbHuffman)
 			{
 
-				decoder.consumeRemainingBits();
+				decoder.ConsumeRemainingBits();
 
 				for (i = 0; i < 32; i++)
 				{
-					runLengthTable[i] = new long[] { i, decoder.readBits(4), 0, 0 };
+					runLengthTable[i] = new long[] { i, decoder.ReadBits(4), 0, 0 };
 				}
 
-				runLengthTable[32] = new long[] { 0x103, decoder.readBits(4), 2, 0 };
+				runLengthTable[32] = new long[] { 0x103, decoder.ReadBits(4), 2, 0 };
 
-				runLengthTable[33] = new long[] { 0x203, decoder.readBits(4), 3, 0 };
+				runLengthTable[33] = new long[] { 0x203, decoder.ReadBits(4), 3, 0 };
 
-				runLengthTable[34] = new long[] { 0x20b, decoder.readBits(4), 7, 0 };
+				runLengthTable[34] = new long[] { 0x20b, decoder.ReadBits(4), 7, 0 };
 
 				runLengthTable[35] = new long[] { 0, 0, HuffmanDecoder.jbig2HuffmanEOT };
 
-				runLengthTable = HuffmanDecoder.buildTable(runLengthTable, 35);
+				runLengthTable = HuffmanDecoder.BuildTable(runLengthTable, 35);
 
 				for (i = 0; i < noOfSymbols; i++)
 				{
@@ -249,7 +249,7 @@ namespace JBig2Decoder.NETCore
 				i = 0;
 				while (i < noOfSymbols)
 				{
-					long j = huffmanDecoder.decodeInt(runLengthTable).intResult();
+					long j = huffmanDecoder.DecodeInt(runLengthTable).IntResult();
 					if (j > 0x200)
 					{
 						for (j -= 0x200; j != 0 && i < noOfSymbols; j--)
@@ -273,98 +273,98 @@ namespace JBig2Decoder.NETCore
 
 				symbolCodeTable[noOfSymbols][1] = 0;
 				symbolCodeTable[noOfSymbols][2] = HuffmanDecoder.jbig2HuffmanEOT;
-				symbolCodeTable = HuffmanDecoder.buildTable(symbolCodeTable, (int)noOfSymbols);
+				symbolCodeTable = HuffmanDecoder.BuildTable(symbolCodeTable, (int)noOfSymbols);
 
-				decoder.consumeRemainingBits();
+				decoder.ConsumeRemainingBits();
 			}
 			else
 			{
 				symbolCodeTable = null;
-				arithmeticDecoder.resetIntStats((int)symbolCodeLength);
-				arithmeticDecoder.start();
+				arithmeticDecoder.ResetIntStats((int)symbolCodeLength);
+				arithmeticDecoder.Start();
 			}
 
-			bool symbolRefine = textRegionFlags.getFlagValue(TextRegionFlags.SB_REFINE) != 0;
-			long logStrips = textRegionFlags.getFlagValue(TextRegionFlags.LOG_SB_STRIPES);
-			int defaultPixel = textRegionFlags.getFlagValue(TextRegionFlags.SB_DEF_PIXEL);
-			int combinationOperator = textRegionFlags.getFlagValue(TextRegionFlags.SB_COMB_OP);
-			bool transposed = textRegionFlags.getFlagValue(TextRegionFlags.TRANSPOSED) != 0;
-			int referenceCorner = textRegionFlags.getFlagValue(TextRegionFlags.REF_CORNER);
-			int sOffset = textRegionFlags.getFlagValue(TextRegionFlags.SB_DS_OFFSET);
-			int template = textRegionFlags.getFlagValue(TextRegionFlags.SB_R_TEMPLATE);
+			bool symbolRefine = textRegionFlags.GetFlagValue(TextRegionFlags.SB_REFINE) != 0;
+			long logStrips = textRegionFlags.GetFlagValue(TextRegionFlags.LOG_SB_STRIPES);
+			int defaultPixel = textRegionFlags.GetFlagValue(TextRegionFlags.SB_DEF_PIXEL);
+			int combinationOperator = textRegionFlags.GetFlagValue(TextRegionFlags.SB_COMB_OP);
+			bool transposed = textRegionFlags.GetFlagValue(TextRegionFlags.TRANSPOSED) != 0;
+			int referenceCorner = textRegionFlags.GetFlagValue(TextRegionFlags.REF_CORNER);
+			int sOffset = textRegionFlags.GetFlagValue(TextRegionFlags.SB_DS_OFFSET);
+			int template = textRegionFlags.GetFlagValue(TextRegionFlags.SB_R_TEMPLATE);
 
 			if (symbolRefine)
 			{
-				arithmeticDecoder.resetRefinementStats(template, null);
+				arithmeticDecoder.ResetRefinementStats(template, null);
 			}
 
 			JBIG2Bitmap bitmap = new JBIG2Bitmap(regionBitmapWidth, regionBitmapHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
 
-			bitmap.readTextRegion2(sbHuffman, symbolRefine, noOfSymbolInstances, logStrips, noOfSymbols, symbolCodeTable, symbolCodeLength, symbols, defaultPixel, combinationOperator, transposed, referenceCorner, sOffset, huffmanFSTable, huffmanDSTable, huffmanDTTable, huffmanRDWTable, huffmanRDHTable, huffmanRDXTable, huffmanRDYTable, huffmanRSizeTable, template, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY, decoder);
+			bitmap.ReadTextRegion2(sbHuffman, symbolRefine, noOfSymbolInstances, logStrips, noOfSymbols, symbolCodeTable, symbolCodeLength, symbols, defaultPixel, combinationOperator, transposed, referenceCorner, sOffset, huffmanFSTable, huffmanDSTable, huffmanDTTable, huffmanRDWTable, huffmanRDHTable, huffmanRDXTable, huffmanRDYTable, huffmanRSizeTable, template, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY, decoder);
 
 			if (inlineImage)
 			{
-				PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-				JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+				PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+				JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
 				if (JBIG2StreamDecoder.debug)
 					Console.WriteLine(pageBitmap + " " + bitmap);
 
-				int externalCombinationOperator = regionFlags.getFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
-				pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, externalCombinationOperator);
+				int externalCombinationOperator = regionFlags.GetFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
+				pageBitmap.Combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, externalCombinationOperator);
 			}
 			else
 			{
-				bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
-				decoder.appendBitmap(bitmap);
+				bitmap.SetBitmapNumber(GetSegmentHeader().GetSegmentNumber());
+				decoder.AppendBitmap(bitmap);
 			}
 
-			decoder.consumeRemainingBits();
+			decoder.ConsumeRemainingBits();
 		}
 
-		private void readTextRegionFlags()
+		private void ReadTextRegionFlags()
 		{
 			/** extract text region Segment flags */
 			short[] textRegionFlagsField = new short[2];
-			decoder.readbyte(textRegionFlagsField);
+			decoder.Readbyte(textRegionFlagsField);
 
 			int flags = BinaryOperation.GetInt16(textRegionFlagsField);
-			textRegionFlags.setFlags(flags);
+			textRegionFlags.SetFlags(flags);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("text region Segment flags = " + flags);
 
-			bool sbHuff = textRegionFlags.getFlagValue(TextRegionFlags.SB_HUFF) != 0;
+			bool sbHuff = textRegionFlags.GetFlagValue(TextRegionFlags.SB_HUFF) != 0;
 			if (sbHuff)
 			{
 				/** extract text region Segment Huffman flags */
 				short[] textRegionHuffmanFlagsField = new short[2];
-				decoder.readbyte(textRegionHuffmanFlagsField);
+				decoder.Readbyte(textRegionHuffmanFlagsField);
 
 				flags = BinaryOperation.GetInt16(textRegionHuffmanFlagsField);
-				textRegionHuffmanFlags.setFlags(flags);
+				textRegionHuffmanFlags.SetFlags(flags);
 
 				if (JBIG2StreamDecoder.debug)
 					Console.WriteLine("text region segment Huffman flags = " + flags);
 			}
 
-			bool sbRefine = textRegionFlags.getFlagValue(TextRegionFlags.SB_REFINE) != 0;
-			int sbrTemplate = textRegionFlags.getFlagValue(TextRegionFlags.SB_R_TEMPLATE);
+			bool sbRefine = textRegionFlags.GetFlagValue(TextRegionFlags.SB_REFINE) != 0;
+			int sbrTemplate = textRegionFlags.GetFlagValue(TextRegionFlags.SB_R_TEMPLATE);
 			if (sbRefine && sbrTemplate == 0)
 			{
-				symbolRegionAdaptiveTemplateX[0] = readATValue();
-				symbolRegionAdaptiveTemplateY[0] = readATValue();
-				symbolRegionAdaptiveTemplateX[1] = readATValue();
-				symbolRegionAdaptiveTemplateY[1] = readATValue();
+				symbolRegionAdaptiveTemplateX[0] = ReadATValue();
+				symbolRegionAdaptiveTemplateY[0] = ReadATValue();
+				symbolRegionAdaptiveTemplateX[1] = ReadATValue();
+				symbolRegionAdaptiveTemplateY[1] = ReadATValue();
 			}
 		}
 
-		public TextRegionFlags getTextRegionFlags()
+		public TextRegionFlags GetTextRegionFlags()
 		{
 			return textRegionFlags;
 		}
 
-		public TextRegionHuffmanFlags getTextRegionHuffmanFlags()
+		public TextRegionHuffmanFlags GetTextRegionHuffmanFlags()
 		{
 			return textRegionHuffmanFlags;
 		}

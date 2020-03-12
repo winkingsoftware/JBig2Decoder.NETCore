@@ -16,19 +16,19 @@ namespace JBig2Decoder.NETCore
       this.inlineImage = inlineImage;
     }
 
-    public override void readSegment()
+    public override void ReadSegment()
     {
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("==== Reading Immediate Generic Region ====");
 
-      base.readSegment();
+      base.ReadSegment();
 
       /** read text region Segment flags */
-      readGenericRegionFlags();
+      ReadGenericRegionFlags();
 
-      bool useMMR = genericRegionFlags.getFlagValue(GenericRegionFlags.MMR) != 0;
-      int template = genericRegionFlags.getFlagValue(GenericRegionFlags.GB_TEMPLATE);
+      bool useMMR = genericRegionFlags.GetFlagValue(GenericRegionFlags.MMR) != 0;
+      int template = genericRegionFlags.GetFlagValue(GenericRegionFlags.GB_TEMPLATE);
 
       short[] genericBAdaptiveTemplateX = new short[4];
       short[] genericBAdaptiveTemplateY = new short[4];
@@ -37,27 +37,27 @@ namespace JBig2Decoder.NETCore
       {
         if (template == 0)
         {
-          genericBAdaptiveTemplateX[0] = readATValue();
-          genericBAdaptiveTemplateY[0] = readATValue();
-          genericBAdaptiveTemplateX[1] = readATValue();
-          genericBAdaptiveTemplateY[1] = readATValue();
-          genericBAdaptiveTemplateX[2] = readATValue();
-          genericBAdaptiveTemplateY[2] = readATValue();
-          genericBAdaptiveTemplateX[3] = readATValue();
-          genericBAdaptiveTemplateY[3] = readATValue();
+          genericBAdaptiveTemplateX[0] = ReadATValue();
+          genericBAdaptiveTemplateY[0] = ReadATValue();
+          genericBAdaptiveTemplateX[1] = ReadATValue();
+          genericBAdaptiveTemplateY[1] = ReadATValue();
+          genericBAdaptiveTemplateX[2] = ReadATValue();
+          genericBAdaptiveTemplateY[2] = ReadATValue();
+          genericBAdaptiveTemplateX[3] = ReadATValue();
+          genericBAdaptiveTemplateY[3] = ReadATValue();
         }
         else
         {
-          genericBAdaptiveTemplateX[0] = readATValue();
-          genericBAdaptiveTemplateY[0] = readATValue();
+          genericBAdaptiveTemplateX[0] = ReadATValue();
+          genericBAdaptiveTemplateY[0] = ReadATValue();
         }
 
-        arithmeticDecoder.resetGenericStats(template, null);
-        arithmeticDecoder.start();
+        arithmeticDecoder.ResetGenericStats(template, null);
+        arithmeticDecoder.Start();
       }
 
-      bool typicalPredictionGenericDecodingOn = genericRegionFlags.getFlagValue(GenericRegionFlags.TPGDON) != 0;
-      int length = segmentHeader.getSegmentDataLength();
+      bool typicalPredictionGenericDecodingOn = genericRegionFlags.GetFlagValue(GenericRegionFlags.TPGDON) != 0;
+      int length = segmentHeader.GetSegmentDataLength();
 
       if (length == -1)
       {
@@ -89,12 +89,12 @@ namespace JBig2Decoder.NETCore
         int bytesRead = 0;
         while (true)
         {
-          short bite1 = decoder.readbyte();
+          short bite1 = decoder.Readbyte();
           bytesRead++;
 
           if (bite1 == match1)
           {
-            short bite2 = decoder.readbyte();
+            short bite2 = decoder.Readbyte();
             bytesRead++;
 
             if (bite2 == match2)
@@ -105,56 +105,56 @@ namespace JBig2Decoder.NETCore
           }
         }
 
-        decoder.movePointer(-bytesRead);
+        decoder.MovePointer(-bytesRead);
       }
 
       JBIG2Bitmap bitmap = new JBIG2Bitmap(regionBitmapWidth, regionBitmapHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
-      bitmap.clear(0);
-      bitmap.readBitmap(useMMR, template, typicalPredictionGenericDecodingOn, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, useMMR ? 0 : length - 18);
+      bitmap.Clear(0);
+      bitmap.ReadBitmap(useMMR, template, typicalPredictionGenericDecodingOn, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, useMMR ? 0 : length - 18);
 
 
 
       if (inlineImage)
       {
-        PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-        JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+        PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+        JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
-        int extCombOp = regionFlags.getFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
+        int extCombOp = regionFlags.GetFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
 
-        if (pageSegment.getPageBitmapHeight() == -1 && regionBitmapYLocation + regionBitmapHeight > pageBitmap.getHeight())
+        if (pageSegment.GetPageBitmapHeight() == -1 && regionBitmapYLocation + regionBitmapHeight > pageBitmap.GetHeight())
         {
-          pageBitmap.expand(regionBitmapYLocation + regionBitmapHeight,
-              pageSegment.getPageInformationFlags().getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE));
+          pageBitmap.Expand(regionBitmapYLocation + regionBitmapHeight,
+              pageSegment.GetPageInformationFlags().GetFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE));
         }
 
-        pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
+        pageBitmap.Combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
       }
       else
       {
-        bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
-        decoder.appendBitmap(bitmap);
+        bitmap.SetBitmapNumber(GetSegmentHeader().GetSegmentNumber());
+        decoder.AppendBitmap(bitmap);
       }
 
 
       if (unknownLength)
       {
-        decoder.movePointer(4);
+        decoder.MovePointer(4);
       }
 
     }
 
-    private void readGenericRegionFlags()
+    private void ReadGenericRegionFlags()
     {
       /** extract text region Segment flags */
-      short genericRegionFlagsField = decoder.readbyte();
+      short genericRegionFlagsField = decoder.Readbyte();
 
-      genericRegionFlags.setFlags(genericRegionFlagsField);
+      genericRegionFlags.SetFlags(genericRegionFlagsField);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("generic region Segment flags = " + genericRegionFlagsField);
     }
 
-    public GenericRegionFlags getGenericRegionFlags()
+    public GenericRegionFlags GetGenericRegionFlags()
     {
       return genericRegionFlags;
     }

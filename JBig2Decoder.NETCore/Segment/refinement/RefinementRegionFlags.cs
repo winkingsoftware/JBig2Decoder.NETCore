@@ -10,7 +10,7 @@ namespace JBig2Decoder.NETCore
 		public const string GR_TEMPLATE = "GR_TEMPLATE";
 		public const string TPGDON = "TPGDON";
 
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

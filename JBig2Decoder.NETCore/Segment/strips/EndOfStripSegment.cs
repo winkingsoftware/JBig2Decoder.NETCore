@@ -9,11 +9,11 @@ namespace JBig2Decoder.NETCore
 
 		public EndOfStripeSegment(JBIG2StreamDecoder streamDecoder) : base(streamDecoder) { }
 
-		public override void readSegment()
+		public override void ReadSegment()
 		{
-			for (int i = 0; i < this.getSegmentHeader().getSegmentDataLength(); i++)
+			for (int i = 0; i < this.GetSegmentHeader().GetSegmentDataLength(); i++)
 			{
-				decoder.readbyte();
+				decoder.Readbyte();
 			}
 		}
 	}

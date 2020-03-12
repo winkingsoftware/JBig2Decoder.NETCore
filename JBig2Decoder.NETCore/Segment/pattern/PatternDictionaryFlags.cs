@@ -10,7 +10,7 @@ namespace JBig2Decoder.NETCore
 		public const string HD_MMR = "HD_MMR";
 		public const string HD_TEMPLATE = "HD_TEMPLATE";
 
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

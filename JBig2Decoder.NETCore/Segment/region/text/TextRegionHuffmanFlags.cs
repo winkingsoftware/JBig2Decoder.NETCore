@@ -16,7 +16,7 @@ namespace JBig2Decoder.NETCore
 		public const string SB_HUFF_RDY = "SB_HUFF_RDY";
 		public const string SB_HUFF_RSIZE = "SB_HUFF_RSIZE";
 
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

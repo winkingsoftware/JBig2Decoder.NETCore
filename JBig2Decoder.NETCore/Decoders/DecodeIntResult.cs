@@ -16,12 +16,12 @@ namespace JBig2Decoder.NETCore
       this._booleanResult = booleanResult;
     }
 
-    public long intResult()
+    public long IntResult()
     {
       return _intResult;
     }
 
-    public bool booleanResult()
+    public bool BooleanResult()
     {
       return _booleanResult;
     }

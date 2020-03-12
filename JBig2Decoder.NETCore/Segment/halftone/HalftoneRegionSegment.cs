@@ -15,51 +15,51 @@ namespace JBig2Decoder.NETCore
       this.inlineImage = inlineImage;
     }
 
-    public override void readSegment()
+    public override void ReadSegment()
     {
-      base.readSegment();
+      base.ReadSegment();
 
       /** read text region Segment flags */
-      readHalftoneRegionFlags();
+      ReadHalftoneRegionFlags();
 
       short[] buf = new short[4];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int gridWidth = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int gridHeight = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int gridX = BinaryOperation.GetInt32(buf);
 
       buf = new short[4];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int gridY = BinaryOperation.GetInt32(buf);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("grid pos and size = " + gridX + ',' + gridY + ' ' + gridWidth + ',' + gridHeight);
 
       buf = new short[2];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int stepX = BinaryOperation.GetInt16(buf);
 
       buf = new short[2];
-      decoder.readbyte(buf);
+      decoder.Readbyte(buf);
       int stepY = BinaryOperation.GetInt16(buf);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("step size = " + stepX + ',' + stepY);
 
-      int[] referedToSegments = segmentHeader.getReferredToSegments();
+      int[] referedToSegments = segmentHeader.GetReferredToSegments();
       if (referedToSegments.Length != 1)
       {
         Console.WriteLine("Error in halftone Segment. refSegs should == 1");
       }
 
-      Segment segment = decoder.findSegment(referedToSegments[0]);
-      if (segment.getSegmentHeader().getSegmentType() != Segment.PATTERN_DICTIONARY)
+      Segment segment = decoder.FindSegment(referedToSegments[0]);
+      if (segment.GetSegmentHeader().GetSegmentType() != Segment.PATTERN_DICTIONARY)
       {
         if (JBIG2StreamDecoder.debug)
           Console.WriteLine("Error in halftone Segment. bad symbol dictionary reference");
@@ -68,39 +68,39 @@ namespace JBig2Decoder.NETCore
       PatternDictionarySegment patternDictionarySegment = (PatternDictionarySegment)segment;
 
       int bitsPerValue = 0, i = 1;
-      while (i < patternDictionarySegment.getSize())
+      while (i < patternDictionarySegment.GetSize())
       {
         bitsPerValue++;
         i <<= 1;
       }
 
-      JBIG2Bitmap bitmap = patternDictionarySegment.getBitmaps()[0];
-      long patternWidth = bitmap.getWidth();
-      long patternHeight = bitmap.getHeight();
+      JBIG2Bitmap bitmap = patternDictionarySegment.GetBitmaps()[0];
+      long patternWidth = bitmap.GetWidth();
+      long patternHeight = bitmap.GetHeight();
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("pattern size = " + patternWidth + ',' + patternHeight);
 
-      bool useMMR = halftoneRegionFlags.getFlagValue(HalftoneRegionFlags.H_MMR) != 0;
-      int template = halftoneRegionFlags.getFlagValue(HalftoneRegionFlags.H_TEMPLATE);
+      bool useMMR = halftoneRegionFlags.GetFlagValue(HalftoneRegionFlags.H_MMR) != 0;
+      int template = halftoneRegionFlags.GetFlagValue(HalftoneRegionFlags.H_TEMPLATE);
 
       if (!useMMR)
       {
-        arithmeticDecoder.resetGenericStats(template, null);
-        arithmeticDecoder.start();
+        arithmeticDecoder.ResetGenericStats(template, null);
+        arithmeticDecoder.Start();
       }
 
-      int halftoneDefaultPixel = halftoneRegionFlags.getFlagValue(HalftoneRegionFlags.H_DEF_PIXEL);
+      int halftoneDefaultPixel = halftoneRegionFlags.GetFlagValue(HalftoneRegionFlags.H_DEF_PIXEL);
       bitmap = new JBIG2Bitmap(regionBitmapWidth, regionBitmapHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
-      bitmap.clear(halftoneDefaultPixel);
+      bitmap.Clear(halftoneDefaultPixel);
 
-      bool enableSkip = halftoneRegionFlags.getFlagValue(HalftoneRegionFlags.H_ENABLE_SKIP) != 0;
+      bool enableSkip = halftoneRegionFlags.GetFlagValue(HalftoneRegionFlags.H_ENABLE_SKIP) != 0;
 
       JBIG2Bitmap skipBitmap = null;
       if (enableSkip)
       {
         skipBitmap = new JBIG2Bitmap(gridWidth, gridHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
-        skipBitmap.clear(0);
+        skipBitmap.Clear(0);
         for (int y = 0; y < gridHeight; y++)
         {
           for (int x = 0; x < gridWidth; x++)
@@ -110,7 +110,7 @@ namespace JBig2Decoder.NETCore
 
             if (((xx + patternWidth) >> 8) <= 0 || (xx >> 8) >= regionBitmapWidth || ((yy + patternHeight) >> 8) <= 0 || (yy >> 8) >= regionBitmapHeight)
             {
-              skipBitmap.setPixel(y, x, 1);
+              skipBitmap.SetPixel(y, x, 1);
             }
           }
         }
@@ -135,21 +135,21 @@ namespace JBig2Decoder.NETCore
       {
         grayBitmap = new JBIG2Bitmap(gridWidth, gridHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
 
-        grayBitmap.readBitmap(useMMR, template, false, enableSkip, skipBitmap, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, -1);
+        grayBitmap.ReadBitmap(useMMR, template, false, enableSkip, skipBitmap, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, -1);
 
         i = 0;
         for (int row = 0; row < gridHeight; row++)
         {
           for (int col = 0; col < gridWidth; col++)
           {
-            int bit = grayBitmap.getPixel(col, row) ^ grayScaleImage[i] & 1;
+            int bit = grayBitmap.GetPixel(col, row) ^ grayScaleImage[i] & 1;
             grayScaleImage[i] = (grayScaleImage[i] << 1) | bit;
             i++;
           }
         }
       }
 
-      int combinationOperator = halftoneRegionFlags.getFlagValue(HalftoneRegionFlags.H_COMB_OP);
+      int combinationOperator = halftoneRegionFlags.GetFlagValue(HalftoneRegionFlags.H_COMB_OP);
 
       i = 0;
       for (int col = 0; col < gridHeight; col++)
@@ -158,10 +158,10 @@ namespace JBig2Decoder.NETCore
         int yy = gridY + col * stepX;
         for (int row = 0; row < gridWidth; row++)
         {
-          if (!(enableSkip && skipBitmap.getPixel(col, row) == 1))
+          if (!(enableSkip && skipBitmap.GetPixel(col, row) == 1))
           {
-            JBIG2Bitmap patternBitmap = patternDictionarySegment.getBitmaps()[grayScaleImage[i]];
-            bitmap.combine(patternBitmap, xx >> 8, yy >> 8, combinationOperator);
+            JBIG2Bitmap patternBitmap = patternDictionarySegment.GetBitmaps()[grayScaleImage[i]];
+            bitmap.Combine(patternBitmap, xx >> 8, yy >> 8, combinationOperator);
           }
 
           xx += stepX;
@@ -173,32 +173,32 @@ namespace JBig2Decoder.NETCore
 
       if (inlineImage)
       {
-        PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-        JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+        PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+        JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
-        int externalCombinationOperator = regionFlags.getFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
-        pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, externalCombinationOperator);
+        int externalCombinationOperator = regionFlags.GetFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
+        pageBitmap.Combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, externalCombinationOperator);
       }
       else
       {
-        bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
-        decoder.appendBitmap(bitmap);
+        bitmap.SetBitmapNumber(GetSegmentHeader().GetSegmentNumber());
+        decoder.AppendBitmap(bitmap);
       }
 
     }
 
-    private void readHalftoneRegionFlags()
+    private void ReadHalftoneRegionFlags()
     {
       /** extract text region Segment flags */
-      short halftoneRegionFlagsField = decoder.readbyte();
+      short halftoneRegionFlagsField = decoder.Readbyte();
 
-      halftoneRegionFlags.setFlags(halftoneRegionFlagsField);
+      halftoneRegionFlags.SetFlags(halftoneRegionFlagsField);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("generic region Segment flags = " + halftoneRegionFlagsField);
     }
 
-    public HalftoneRegionFlags getHalftoneRegionFlags()
+    public HalftoneRegionFlags GetHalftoneRegionFlags()
     {
       return halftoneRegionFlags;
     }

@@ -17,60 +17,60 @@ namespace JBig2Decoder.NETCore
 
 		public PageInformationSegment(JBIG2StreamDecoder streamDecoder) : base(streamDecoder) { }
 
-		public PageInformationFlags getPageInformationFlags()
+		public PageInformationFlags GetPageInformationFlags()
 		{
 			return pageInformationFlags;
 		}
 
-		public JBIG2Bitmap getPageBitmap()
+		public JBIG2Bitmap GetPageBitmap()
 		{
 			return pageBitmap;
 		}
 
-		public override void readSegment()
+		public override void ReadSegment()
 		{
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("==== Reading Page Information Dictionary ====");
 
 			short[] buff = new short[4];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			pageBitmapWidth = BinaryOperation.GetInt32(buff);
 
 			buff = new short[4];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			pageBitmapHeight = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Bitmap size = " + pageBitmapWidth + 'x' + pageBitmapHeight);
 
 			buff = new short[4];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			xResolution = BinaryOperation.GetInt32(buff);
 
 			buff = new short[4];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			yResolution = BinaryOperation.GetInt32(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Resolution = " + xResolution + 'x' + yResolution);
 
 			/** extract page information flags */
-			short pageInformationFlagsField = decoder.readbyte();
+			short pageInformationFlagsField = decoder.Readbyte();
 
-			pageInformationFlags.setFlags(pageInformationFlagsField);
+			pageInformationFlags.SetFlags(pageInformationFlagsField);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("symbolDictionaryFlags = " + pageInformationFlagsField);
 
 			buff = new short[2];
-			decoder.readbyte(buff);
+			decoder.Readbyte(buff);
 			pageStriping = BinaryOperation.GetInt16(buff);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("Page Striping = " + pageStriping);
 
-			int defPix = pageInformationFlags.getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE);
+			int defPix = pageInformationFlags.GetFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE);
 
 			int height;
 
@@ -84,10 +84,10 @@ namespace JBig2Decoder.NETCore
 			}
 
 			pageBitmap = new JBIG2Bitmap(pageBitmapWidth, height, arithmeticDecoder, huffmanDecoder, mmrDecoder);
-			pageBitmap.clear(defPix);
+			pageBitmap.Clear(defPix);
 		}
 
-		public int getPageBitmapHeight()
+		public int GetPageBitmapHeight()
 		{
 			return pageBitmapHeight;
 		}

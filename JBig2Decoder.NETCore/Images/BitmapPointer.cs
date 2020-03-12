@@ -13,11 +13,11 @@ namespace JBig2Decoder.NETCore
     public BitmapPointer(JBIG2Bitmap bitmap)
     {
       this.bitmap = bitmap;
-      this.height = bitmap.getHeight();
-      this.width = bitmap.getWidth();
+      this.height = bitmap.GetHeight();
+      this.width = bitmap.GetWidth();
     }
 
-    public void setPointer(long x, long y)
+    public void SetPointer(long x, long y)
     {
       this.x = x;
       this.y = y;
@@ -29,7 +29,7 @@ namespace JBig2Decoder.NETCore
       count = y * width;
     }
 
-    public int nextPixel()
+    public int NextPixel()
     {
 
       // fairly certain the byte can be cached here - seems to work fine. only

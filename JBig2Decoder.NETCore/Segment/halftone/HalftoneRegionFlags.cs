@@ -13,7 +13,7 @@ namespace JBig2Decoder.NETCore
 		public const string H_COMB_OP = "H_COMB_OP";
 		public const string H_DEF_PIXEL = "H_DEF_PIXEL";
 
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

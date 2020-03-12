@@ -16,7 +16,7 @@ namespace JBig2Decoder.NETCore
 		public const string SB_DEF_PIXEL = "SB_DEF_PIXEL";
 		public const string SB_DS_OFFSET = "SB_DS_OFFSET";
 		public const string SB_R_TEMPLATE = "SB_R_TEMPLATE";
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

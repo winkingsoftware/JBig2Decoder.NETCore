@@ -69,7 +69,7 @@ namespace JBig2Decoder.NETCore
 			bytePointer += ammount;
 		}
 
-		public void consumeRemainingBits()
+		public void ConsumeRemainingBits()
 		{
 			if (bitPointer != 7)
 				ReadBits(bitPointer + 1);

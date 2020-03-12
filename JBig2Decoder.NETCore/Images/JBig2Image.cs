@@ -30,14 +30,14 @@ namespace JBig2Decoder.NETCore
       this.data = new FastBitSet(width * height);
     }
 
-    public void readBitmap(bool useMMR, int template, bool typicalPredictionGenericDecodingOn, bool useSkip, JBIG2Bitmap skipBitmap, short[] adaptiveTemplateX, short[] adaptiveTemplateY, long mmrDataLength)
+    public void ReadBitmap(bool useMMR, int template, bool typicalPredictionGenericDecodingOn, bool useSkip, JBIG2Bitmap skipBitmap, short[] adaptiveTemplateX, short[] adaptiveTemplateY, long mmrDataLength)
     {
 
       if (useMMR)
       {
 
         //MMRDecoder mmrDecoder = MMRDecoder.getInstance();
-        mmrDecoder.reset();
+        mmrDecoder.Reset();
 
         long[] referenceLine = new long[width + 2];
         long[] codingLine = new long[width + 2];
@@ -59,7 +59,7 @@ namespace JBig2Decoder.NETCore
 
           do
           {
-            int code1 = mmrDecoder.get2DCode(), code2, code3;
+            int code1 = mmrDecoder.Get2DCode(), code2, code3;
 
             switch (code1)
             {
@@ -76,13 +76,13 @@ namespace JBig2Decoder.NETCore
                   code1 = 0;
                   do
                   {
-                    code1 += code3 = mmrDecoder.getBlackCode();
+                    code1 += code3 = mmrDecoder.GetBlackCode();
                   } while (code3 >= 64);
 
                   code2 = 0;
                   do
                   {
-                    code2 += code3 = mmrDecoder.getWhiteCode();
+                    code2 += code3 = mmrDecoder.GetWhiteCode();
                   } while (code3 >= 64);
                 }
                 else
@@ -90,13 +90,13 @@ namespace JBig2Decoder.NETCore
                   code1 = 0;
                   do
                   {
-                    code1 += code3 = mmrDecoder.getWhiteCode();
+                    code1 += code3 = mmrDecoder.GetWhiteCode();
                   } while (code3 >= 64);
 
                   code2 = 0;
                   do
                   {
-                    code2 += code3 = mmrDecoder.getBlackCode();
+                    code2 += code3 = mmrDecoder.GetBlackCode();
                   } while (code3 >= 64);
 
                 }
@@ -220,18 +220,18 @@ namespace JBig2Decoder.NETCore
           {
             for (long col = codingLine[j]; col < codingLine[j + 1]; col++)
             {
-              setPixel(col, row, 1);
+              SetPixel(col, row, 1);
             }
           }
         }
 
         if (mmrDataLength >= 0)
         {
-          mmrDecoder.skipTo(mmrDataLength);
+          mmrDecoder.SkipTo(mmrDataLength);
         }
         else
         {
-          if (mmrDecoder.get24Bits() != 0x001001)
+          if (mmrDecoder.Get24Bits() != 0x001001)
           {
             if (JBIG2StreamDecoder.debug)
               Console.WriteLine("Missing EOFB in JBIG2 MMR bitmap data");
@@ -274,7 +274,7 @@ namespace JBig2Decoder.NETCore
         {
           if (typicalPredictionGenericDecodingOn)
           {
-            int bit = arithmeticDecoder.decodeBit(ltpCX, arithmeticDecoder.genericRegionStats);
+            int bit = arithmeticDecoder.DecodeBit(ltpCX, arithmeticDecoder.genericRegionStats);
             if (bit != 0)
             {
               ltp = !ltp;
@@ -282,7 +282,7 @@ namespace JBig2Decoder.NETCore
 
             if (ltp)
             {
-              duplicateRow(row, row - 1);
+              DuplicateRow(row, row - 1);
               continue;
             }
           }
@@ -293,171 +293,171 @@ namespace JBig2Decoder.NETCore
           {
             case 0:
 
-              cxPtr0.setPointer(0, row - 2);
-              cx0 = (cxPtr0.nextPixel() << 1);
-              cx0 |= cxPtr0.nextPixel();
+              cxPtr0.SetPointer(0, row - 2);
+              cx0 = (cxPtr0.NextPixel() << 1);
+              cx0 |= cxPtr0.NextPixel();
               //cx0 = (BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel();
 
-              cxPtr1.setPointer(0, row - 1);
-              cx1 = (cxPtr1.nextPixel() << 2);
-              cx1 |= (cxPtr1.nextPixel() << 1);
-              cx1 |= (cxPtr1.nextPixel());
+              cxPtr1.SetPointer(0, row - 1);
+              cx1 = (cxPtr1.NextPixel() << 2);
+              cx1 |= (cxPtr1.NextPixel() << 1);
+              cx1 |= (cxPtr1.NextPixel());
 
               //cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();
               //cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();
 
               cx2 = 0;
 
-              atPtr0.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
-              atPtr1.setPointer(adaptiveTemplateX[1], row + adaptiveTemplateY[1]);
-              atPtr2.setPointer(adaptiveTemplateX[2], row + adaptiveTemplateY[2]);
-              atPtr3.setPointer(adaptiveTemplateX[3], row + adaptiveTemplateY[3]);
+              atPtr0.SetPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
+              atPtr1.SetPointer(adaptiveTemplateX[1], row + adaptiveTemplateY[1]);
+              atPtr2.SetPointer(adaptiveTemplateX[2], row + adaptiveTemplateY[2]);
+              atPtr3.SetPointer(adaptiveTemplateX[3], row + adaptiveTemplateY[3]);
 
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.Bit32ShiftL(cx0, 13)) | (BinaryOperation.Bit32ShiftL(cx1, 8)) | (BinaryOperation.Bit32ShiftL(cx2, 4)) | (atPtr0.nextPixel() << 3) | (atPtr1.nextPixel() << 2) | (atPtr2.nextPixel() << 1) | atPtr3.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 13)) | (BinaryOperation.Bit32ShiftL(cx1, 8)) | (BinaryOperation.Bit32ShiftL(cx2, 4)) | (atPtr0.NextPixel() << 3) | (atPtr1.NextPixel() << 2) | (atPtr2.NextPixel() << 1) | atPtr3.NextPixel();
 
-                if (useSkip && skipBitmap.getPixel(col, row) != 0)
+                if (useSkip && skipBitmap.GetPixel(col, row) != 0)
                 {
                   pixel = 0;
                 }
                 else
                 {
-                  pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
+                  pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
                     data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
-                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.NextPixel()) & 0x07;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.NextPixel()) & 0x1f;
                 cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
               }
               break;
 
             case 1:
 
-              cxPtr0.setPointer(0, row - 2);
-              cx0 = (cxPtr0.nextPixel() << 2);
-              cx0 |= (cxPtr0.nextPixel() << 1);
-              cx0 |= (cxPtr0.nextPixel());
+              cxPtr0.SetPointer(0, row - 2);
+              cx0 = (cxPtr0.NextPixel() << 2);
+              cx0 |= (cxPtr0.NextPixel() << 1);
+              cx0 |= (cxPtr0.NextPixel());
               /*cx0 = cxPtr0.nextPixel();
               cx0 = (BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel();
               cx0 = (BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel();*/
 
-              cxPtr1.setPointer(0, row - 1);
-              cx1 = (cxPtr1.nextPixel() << 2);
-              cx1 |= (cxPtr1.nextPixel() << 1);
-              cx1 |= (cxPtr1.nextPixel());
+              cxPtr1.SetPointer(0, row - 1);
+              cx1 = (cxPtr1.NextPixel() << 2);
+              cx1 |= (cxPtr1.NextPixel() << 1);
+              cx1 |= (cxPtr1.NextPixel());
               /*cx1 = cxPtr1.nextPixel();
               cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();
               cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();*/
 
               cx2 = 0;
 
-              atPtr0.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
+              atPtr0.SetPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
 
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.Bit32ShiftL(cx0, 9)) | (BinaryOperation.Bit32ShiftL(cx1, 4)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 9)) | (BinaryOperation.Bit32ShiftL(cx1, 4)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.NextPixel();
 
-                if (useSkip && skipBitmap.getPixel(col, row) != 0)
+                if (useSkip && skipBitmap.GetPixel(col, row) != 0)
                 {
                   pixel = 0;
                 }
                 else
                 {
-                  pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
+                  pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
                     data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x0f;
-                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.NextPixel()) & 0x0f;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.NextPixel()) & 0x1f;
                 cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x07;
               }
               break;
 
             case 2:
 
-              cxPtr0.setPointer(0, row - 2);
-              cx0 = (cxPtr0.nextPixel() << 1);
-              cx0 |= (cxPtr0.nextPixel());
+              cxPtr0.SetPointer(0, row - 2);
+              cx0 = (cxPtr0.NextPixel() << 1);
+              cx0 |= (cxPtr0.NextPixel());
               /*cx0 = cxPtr0.nextPixel();
               cx0 = (BinaryOperation.bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel();
               */
 
-              cxPtr1.setPointer(0, row - 1);
-              cx1 = (cxPtr1.nextPixel() << 1);
-              cx1 |= (cxPtr1.nextPixel());
+              cxPtr1.SetPointer(0, row - 1);
+              cx1 = (cxPtr1.NextPixel() << 1);
+              cx1 |= (cxPtr1.NextPixel());
               /*cx1 = cxPtr1.nextPixel();
               cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();*/
 
               cx2 = 0;
 
-              atPtr0.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
+              atPtr0.SetPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
 
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (BinaryOperation.Bit32ShiftL(cx1, 3)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (BinaryOperation.Bit32ShiftL(cx1, 3)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.NextPixel();
 
-                if (useSkip && skipBitmap.getPixel(col, row) != 0)
+                if (useSkip && skipBitmap.GetPixel(col, row) != 0)
                 {
                   pixel = 0;
                 }
                 else
                 {
-                  pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
+                  pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
                     data.Set(row * width + col);
                   }
                 }
 
-                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 0x07;
-                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x0f;
+                cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.NextPixel()) & 0x07;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.NextPixel()) & 0x0f;
                 cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x03;
               }
               break;
 
             case 3:
 
-              cxPtr1.setPointer(0, row - 1);
-              cx1 = (cxPtr1.nextPixel() << 1);
-              cx1 |= (cxPtr1.nextPixel());
+              cxPtr1.SetPointer(0, row - 1);
+              cx1 = (cxPtr1.NextPixel() << 1);
+              cx1 |= (cxPtr1.NextPixel());
               /*cx1 = cxPtr1.nextPixel();
               cx1 = (BinaryOperation.bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel();
 */
               cx2 = 0;
 
-              atPtr0.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
+              atPtr0.SetPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
 
               for (int col = 0; col < width; col++)
               {
 
-                cx = (BinaryOperation.Bit32ShiftL(cx1, 5)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.nextPixel();
+                cx = (BinaryOperation.Bit32ShiftL(cx1, 5)) | (BinaryOperation.Bit32ShiftL(cx2, 1)) | atPtr0.NextPixel();
 
-                if (useSkip && skipBitmap.getPixel(col, row) != 0)
+                if (useSkip && skipBitmap.GetPixel(col, row) != 0)
                 {
                   pixel = 0;
 
                 }
                 else
                 {
-                  pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.genericRegionStats);
+                  pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.genericRegionStats);
                   if (pixel != 0)
                   {
                     data.Set(row * width + col);
                   }
                 }
 
-                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.nextPixel()) & 0x1f;
+                cx1 = ((BinaryOperation.Bit32ShiftL(cx1, 1)) | cxPtr1.NextPixel()) & 0x1f;
                 cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | pixel) & 0x0f;
               }
               break;
@@ -466,7 +466,7 @@ namespace JBig2Decoder.NETCore
       }
     }
 
-    public void readGenericRefinementRegion(long template, bool typicalPredictionGenericRefinementOn, JBIG2Bitmap referredToBitmap, long referenceDX, long referenceDY, short[] adaptiveTemplateX, short[] adaptiveTemplateY)
+    public void ReadGenericRefinementRegion(long template, bool typicalPredictionGenericRefinementOn, JBIG2Bitmap referredToBitmap, long referenceDX, long referenceDY, short[] adaptiveTemplateX, short[] adaptiveTemplateY)
     {
 
       BitmapPointer cxPtr0, cxPtr1, cxPtr2, cxPtr3, cxPtr4, cxPtr5, cxPtr6, typicalPredictionGenericRefinementCXPtr0, typicalPredictionGenericRefinementCXPtr1, typicalPredictionGenericRefinementCXPtr2;
@@ -513,73 +513,73 @@ namespace JBig2Decoder.NETCore
         if (template != 0)
         {
 
-          cxPtr0.setPointer(0, row - 1);
-          cx0 = cxPtr0.nextPixel();
+          cxPtr0.SetPointer(0, row - 1);
+          cx0 = cxPtr0.NextPixel();
 
-          cxPtr1.setPointer(-1, row);
+          cxPtr1.SetPointer(-1, row);
 
-          cxPtr2.setPointer(-referenceDX, row - 1 - referenceDY);
+          cxPtr2.SetPointer(-referenceDX, row - 1 - referenceDY);
 
-          cxPtr3.setPointer(-1 - referenceDX, row - referenceDY);
-          cx3 = cxPtr3.nextPixel();
-          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
+          cxPtr3.SetPointer(-1 - referenceDX, row - referenceDY);
+          cx3 = cxPtr3.NextPixel();
+          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.NextPixel();
 
-          cxPtr4.setPointer(-referenceDX, row + 1 - referenceDY);
-          cx4 = cxPtr4.nextPixel();
+          cxPtr4.SetPointer(-referenceDX, row + 1 - referenceDY);
+          cx4 = cxPtr4.NextPixel();
 
           typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCX2 = 0;
 
           if (typicalPredictionGenericRefinementOn)
           {
-            typicalPredictionGenericRefinementCXPtr0.setPointer(-1 - referenceDX, row - 1 - referenceDY);
-            typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCXPtr0.SetPointer(-1 - referenceDX, row - 1 - referenceDY);
+            typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.NextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel();
 
-            typicalPredictionGenericRefinementCXPtr1.setPointer(-1 - referenceDX, row - referenceDY);
-            typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCXPtr1.SetPointer(-1 - referenceDX, row - referenceDY);
+            typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.NextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel();
 
-            typicalPredictionGenericRefinementCXPtr2.setPointer(-1 - referenceDX, row + 1 - referenceDY);
-            typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCXPtr2.SetPointer(-1 - referenceDX, row + 1 - referenceDY);
+            typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.NextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel();
           }
 
           for (int col = 0; col < width; col++)
           {
 
-            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 7;
-            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
-            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 3;
+            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.NextPixel()) & 7;
+            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.NextPixel()) & 7;
+            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.NextPixel()) & 3;
 
             if (typicalPredictionGenericRefinementOn)
             {
-              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel()) & 7;
+              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel()) & 7;
+              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel()) & 7;
 
-              int decodeBit = arithmeticDecoder.decodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
+              int decodeBit = arithmeticDecoder.DecodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
               if (decodeBit != 0)
               {
                 ltp = !ltp;
               }
               if (typicalPredictionGenericRefinementCX0 == 0 && typicalPredictionGenericRefinementCX1 == 0 && typicalPredictionGenericRefinementCX2 == 0)
               {
-                setPixel(col, row, 0);
+                SetPixel(col, row, 0);
                 continue;
               }
               else if (typicalPredictionGenericRefinementCX0 == 7 && typicalPredictionGenericRefinementCX1 == 7 && typicalPredictionGenericRefinementCX2 == 7)
               {
-                setPixel(col, row, 1);
+                SetPixel(col, row, 1);
                 continue;
               }
             }
 
-            cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (cxPtr1.nextPixel() << 6) | (cxPtr2.nextPixel() << 5) | (BinaryOperation.Bit32ShiftL(cx3, 2)) | cx4;
+            cx = (BinaryOperation.Bit32ShiftL(cx0, 7)) | (cxPtr1.NextPixel() << 6) | (cxPtr2.NextPixel() << 5) | (BinaryOperation.Bit32ShiftL(cx3, 2)) | cx4;
 
-            int pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.refinementRegionStats);
+            int pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.refinementRegionStats);
             if (pixel == 1)
             {
               data.Set(row * width + col);
@@ -590,89 +590,89 @@ namespace JBig2Decoder.NETCore
         else
         {
 
-          cxPtr0.setPointer(0, row - 1);
-          cx0 = cxPtr0.nextPixel();
+          cxPtr0.SetPointer(0, row - 1);
+          cx0 = cxPtr0.NextPixel();
 
-          cxPtr1.setPointer(-1, row);
+          cxPtr1.SetPointer(-1, row);
 
-          cxPtr2.setPointer(-referenceDX, row - 1 - referenceDY);
-          cx2 = cxPtr2.nextPixel();
+          cxPtr2.SetPointer(-referenceDX, row - 1 - referenceDY);
+          cx2 = cxPtr2.NextPixel();
 
-          cxPtr3.setPointer(-1 - referenceDX, row - referenceDY);
-          cx3 = cxPtr3.nextPixel();
-          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel();
+          cxPtr3.SetPointer(-1 - referenceDX, row - referenceDY);
+          cx3 = cxPtr3.NextPixel();
+          cx3 = (BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.NextPixel();
 
-          cxPtr4.setPointer(-1 - referenceDX, row + 1 - referenceDY);
-          cx4 = cxPtr4.nextPixel();
-          cx4 = (BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel();
+          cxPtr4.SetPointer(-1 - referenceDX, row + 1 - referenceDY);
+          cx4 = cxPtr4.NextPixel();
+          cx4 = (BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.NextPixel();
 
-          cxPtr5.setPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
+          cxPtr5.SetPointer(adaptiveTemplateX[0], row + adaptiveTemplateY[0]);
 
-          cxPtr6.setPointer(adaptiveTemplateX[1] - referenceDX, row + adaptiveTemplateY[1] - referenceDY);
+          cxPtr6.SetPointer(adaptiveTemplateX[1] - referenceDX, row + adaptiveTemplateY[1] - referenceDY);
 
           typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCX2 = 0;
           if (typicalPredictionGenericRefinementOn)
           {
-            typicalPredictionGenericRefinementCXPtr0.setPointer(-1 - referenceDX, row - 1 - referenceDY);
-            typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
-            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel();
+            typicalPredictionGenericRefinementCXPtr0.SetPointer(-1 - referenceDX, row - 1 - referenceDY);
+            typicalPredictionGenericRefinementCX0 = typicalPredictionGenericRefinementCXPtr0.NextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel();
+            typicalPredictionGenericRefinementCX0 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel();
 
-            typicalPredictionGenericRefinementCXPtr1.setPointer(-1 - referenceDX, row - referenceDY);
-            typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
-            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel();
+            typicalPredictionGenericRefinementCXPtr1.SetPointer(-1 - referenceDX, row - referenceDY);
+            typicalPredictionGenericRefinementCX1 = typicalPredictionGenericRefinementCXPtr1.NextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel();
+            typicalPredictionGenericRefinementCX1 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel();
 
-            typicalPredictionGenericRefinementCXPtr2.setPointer(-1 - referenceDX, row + 1 - referenceDY);
-            typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
-            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel();
+            typicalPredictionGenericRefinementCXPtr2.SetPointer(-1 - referenceDX, row + 1 - referenceDY);
+            typicalPredictionGenericRefinementCX2 = typicalPredictionGenericRefinementCXPtr2.NextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel();
+            typicalPredictionGenericRefinementCX2 = (BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel();
           }
 
           for (int col = 0; col < width; col++)
           {
 
-            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.nextPixel()) & 3;
-            cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | cxPtr2.nextPixel()) & 3;
-            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.nextPixel()) & 7;
-            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.nextPixel()) & 7;
+            cx0 = ((BinaryOperation.Bit32ShiftL(cx0, 1)) | cxPtr0.NextPixel()) & 3;
+            cx2 = ((BinaryOperation.Bit32ShiftL(cx2, 1)) | cxPtr2.NextPixel()) & 3;
+            cx3 = ((BinaryOperation.Bit32ShiftL(cx3, 1)) | cxPtr3.NextPixel()) & 7;
+            cx4 = ((BinaryOperation.Bit32ShiftL(cx4, 1)) | cxPtr4.NextPixel()) & 7;
 
             if (typicalPredictionGenericRefinementOn)
             {
-              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.nextPixel()) & 7;
-              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.nextPixel()) & 7;
+              typicalPredictionGenericRefinementCX0 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX0, 1)) | typicalPredictionGenericRefinementCXPtr0.NextPixel()) & 7;
+              typicalPredictionGenericRefinementCX1 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX1, 1)) | typicalPredictionGenericRefinementCXPtr1.NextPixel()) & 7;
+              typicalPredictionGenericRefinementCX2 = ((BinaryOperation.Bit32ShiftL(typicalPredictionGenericRefinementCX2, 1)) | typicalPredictionGenericRefinementCXPtr2.NextPixel()) & 7;
 
-              int decodeBit = arithmeticDecoder.decodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
+              int decodeBit = arithmeticDecoder.DecodeBit(ltpCX, arithmeticDecoder.refinementRegionStats);
               if (decodeBit == 1)
               {
                 ltp = !ltp;
               }
               if (typicalPredictionGenericRefinementCX0 == 0 && typicalPredictionGenericRefinementCX1 == 0 && typicalPredictionGenericRefinementCX2 == 0)
               {
-                setPixel(col, row, 0);
+                SetPixel(col, row, 0);
                 continue;
               }
               else if (typicalPredictionGenericRefinementCX0 == 7 && typicalPredictionGenericRefinementCX1 == 7 && typicalPredictionGenericRefinementCX2 == 7)
               {
-                setPixel(col, row, 1);
+                SetPixel(col, row, 1);
                 continue;
               }
             }
 
-            cx = (BinaryOperation.Bit32ShiftL(cx0, 11)) | (cxPtr1.nextPixel() << 10) | (BinaryOperation.Bit32ShiftL(cx2, 8)) | (BinaryOperation.Bit32ShiftL(cx3, 5)) | (BinaryOperation.Bit32ShiftL(cx4, 2)) | (cxPtr5.nextPixel() << 1) | cxPtr6.nextPixel();
+            cx = (BinaryOperation.Bit32ShiftL(cx0, 11)) | (cxPtr1.NextPixel() << 10) | (BinaryOperation.Bit32ShiftL(cx2, 8)) | (BinaryOperation.Bit32ShiftL(cx3, 5)) | (BinaryOperation.Bit32ShiftL(cx4, 2)) | (cxPtr5.NextPixel() << 1) | cxPtr6.NextPixel();
 
-            int pixel = arithmeticDecoder.decodeBit(cx, arithmeticDecoder.refinementRegionStats);
+            int pixel = arithmeticDecoder.DecodeBit(cx, arithmeticDecoder.refinementRegionStats);
             if (pixel == 1)
             {
-              setPixel(col, row, 1);
+              SetPixel(col, row, 1);
             }
           }
         }
       }
     }
 
-    public void readTextRegion(bool huffman, bool symbolRefine, long noOfSymbolInstances, long logStrips, long noOfSymbols, long[,] symbolCodeTable, long symbolCodeLength, JBIG2Bitmap[] symbols, int defaultPixel, int combinationOperator, bool transposed, int referenceCorner, int sOffset, long[,] huffmanFSTable, long[,] huffmanDSTable, long[,] huffmanDTTable, long[,] huffmanRDWTable, long[,] huffmanRDHTable, long[,] huffmanRDXTable, long[,] huffmanRDYTable, long[,] huffmanRSizeTable, int template, short[] symbolRegionAdaptiveTemplateX,
+    public void ReadTextRegion(bool huffman, bool symbolRefine, long noOfSymbolInstances, long logStrips, long noOfSymbols, long[,] symbolCodeTable, long symbolCodeLength, JBIG2Bitmap[] symbols, int defaultPixel, int combinationOperator, bool transposed, int referenceCorner, int sOffset, long[,] huffmanFSTable, long[,] huffmanDSTable, long[,] huffmanDTTable, long[,] huffmanRDWTable, long[,] huffmanRDHTable, long[,] huffmanRDXTable, long[,] huffmanRDYTable, long[,] huffmanRSizeTable, int template, short[] symbolRegionAdaptiveTemplateX,
         short[] symbolRegionAdaptiveTemplateY, JBIG2StreamDecoder decoder)
     {
 
@@ -680,16 +680,16 @@ namespace JBig2Decoder.NETCore
 
       int strips = 1 << (int)logStrips;
 
-      clear(defaultPixel);
+      Clear(defaultPixel);
 
       long t;
       if (huffman)
       {
-        t = huffmanDecoder.decodeInt(huffmanDTTable).intResult();
+        t = huffmanDecoder.DecodeInt(huffmanDTTable).IntResult();
       }
       else
       {
-        t = arithmeticDecoder.decodeInt(arithmeticDecoder.iadtStats).intResult();
+        t = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadtStats).IntResult();
       }
       t *= -strips;
 
@@ -701,21 +701,21 @@ namespace JBig2Decoder.NETCore
 
         if (huffman)
         {
-          dt = huffmanDecoder.decodeInt(huffmanDTTable).intResult();
+          dt = huffmanDecoder.DecodeInt(huffmanDTTable).IntResult();
         }
         else
         {
-          dt = arithmeticDecoder.decodeInt(arithmeticDecoder.iadtStats).intResult();
+          dt = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadtStats).IntResult();
         }
         t += dt * strips;
 
         if (huffman)
         {
-          ds = huffmanDecoder.decodeInt(huffmanFSTable).intResult();
+          ds = huffmanDecoder.DecodeInt(huffmanFSTable).IntResult();
         }
         else
         {
-          ds = arithmeticDecoder.decodeInt(arithmeticDecoder.iafsStats).intResult();
+          ds = arithmeticDecoder.DecodeInt(arithmeticDecoder.iafsStats).IntResult();
         }
         firstS += ds;
         s = firstS;
@@ -729,11 +729,11 @@ namespace JBig2Decoder.NETCore
           }
           else if (huffman)
           {
-            dt = decoder.readBits(logStrips);
+            dt = decoder.ReadBits(logStrips);
           }
           else
           {
-            dt = arithmeticDecoder.decodeInt(arithmeticDecoder.iaitStats).intResult();
+            dt = arithmeticDecoder.DecodeInt(arithmeticDecoder.iaitStats).IntResult();
           }
           tt = t + dt;
 
@@ -742,16 +742,16 @@ namespace JBig2Decoder.NETCore
           {
             if (symbolCodeTable != null)
             {
-              symbolID = huffmanDecoder.decodeInt(symbolCodeTable).intResult();
+              symbolID = huffmanDecoder.DecodeInt(symbolCodeTable).IntResult();
             }
             else
             {
-              symbolID = decoder.readBits(symbolCodeLength);
+              symbolID = decoder.ReadBits(symbolCodeLength);
             }
           }
           else
           {
-            symbolID = arithmeticDecoder.decodeIAID(symbolCodeLength, arithmeticDecoder.iaidStats);
+            symbolID = arithmeticDecoder.DecodeIAID(symbolCodeLength, arithmeticDecoder.iaidStats);
           }
 
           if (symbolID >= noOfSymbols)
@@ -768,11 +768,11 @@ namespace JBig2Decoder.NETCore
             {
               if (huffman)
               {
-                ri = decoder.readBit();
+                ri = decoder.ReadBit();
               }
               else
               {
-                ri = arithmeticDecoder.decodeInt(arithmeticDecoder.iariStats).intResult();
+                ri = arithmeticDecoder.DecodeInt(arithmeticDecoder.iariStats).IntResult();
               }
             }
             else
@@ -786,27 +786,27 @@ namespace JBig2Decoder.NETCore
 
               if (huffman)
               {
-                refinementDeltaWidth = huffmanDecoder.decodeInt(huffmanRDWTable).intResult();
-                refinementDeltaHeight = huffmanDecoder.decodeInt(huffmanRDHTable).intResult();
-                refinementDeltaX = huffmanDecoder.decodeInt(huffmanRDXTable).intResult();
-                refinementDeltaY = huffmanDecoder.decodeInt(huffmanRDYTable).intResult();
+                refinementDeltaWidth = huffmanDecoder.DecodeInt(huffmanRDWTable).IntResult();
+                refinementDeltaHeight = huffmanDecoder.DecodeInt(huffmanRDHTable).IntResult();
+                refinementDeltaX = huffmanDecoder.DecodeInt(huffmanRDXTable).IntResult();
+                refinementDeltaY = huffmanDecoder.DecodeInt(huffmanRDYTable).IntResult();
 
-                decoder.consumeRemainingBits();
-                arithmeticDecoder.start();
+                decoder.ConsumeRemainingBits();
+                arithmeticDecoder.Start();
               }
               else
               {
-                refinementDeltaWidth = arithmeticDecoder.decodeInt(arithmeticDecoder.iardwStats).intResult();
-                refinementDeltaHeight = arithmeticDecoder.decodeInt(arithmeticDecoder.iardhStats).intResult();
-                refinementDeltaX = arithmeticDecoder.decodeInt(arithmeticDecoder.iardxStats).intResult();
-                refinementDeltaY = arithmeticDecoder.decodeInt(arithmeticDecoder.iardyStats).intResult();
+                refinementDeltaWidth = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardwStats).IntResult();
+                refinementDeltaHeight = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardhStats).IntResult();
+                refinementDeltaX = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardxStats).IntResult();
+                refinementDeltaY = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardyStats).IntResult();
               }
               refinementDeltaX = ((refinementDeltaWidth >= 0) ? refinementDeltaWidth : refinementDeltaWidth - 1) / 2 + refinementDeltaX;
               refinementDeltaY = ((refinementDeltaHeight >= 0) ? refinementDeltaHeight : refinementDeltaHeight - 1) / 2 + refinementDeltaY;
 
               symbolBitmap = new JBIG2Bitmap(refinementDeltaWidth + symbols[(int)symbolID].width, refinementDeltaHeight + symbols[(int)symbolID].height, arithmeticDecoder, huffmanDecoder, mmrDecoder);
 
-              symbolBitmap.readGenericRefinementRegion(template, false, symbols[(int)symbolID], refinementDeltaX, refinementDeltaY, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY);
+              symbolBitmap.ReadGenericRefinementRegion(template, false, symbols[(int)symbolID], refinementDeltaX, refinementDeltaY, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY);
 
             }
             else
@@ -821,16 +821,16 @@ namespace JBig2Decoder.NETCore
               switch (referenceCorner)
               {
                 case 0: // bottom left
-                  combine(symbolBitmap, tt, s, combinationOperator);
+                  Combine(symbolBitmap, tt, s, combinationOperator);
                   break;
                 case 1: // top left
-                  combine(symbolBitmap, tt, s, combinationOperator);
+                  Combine(symbolBitmap, tt, s, combinationOperator);
                   break;
                 case 2: // bottom right
-                  combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
+                  Combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
                   break;
                 case 3: // top right
-                  combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
+                  Combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
                   break;
               }
               s += bitmapHeight;
@@ -840,16 +840,16 @@ namespace JBig2Decoder.NETCore
               switch (referenceCorner)
               {
                 case 0: // bottom left
-                  combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
+                  Combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
                   break;
                 case 1: // top left
-                  combine(symbolBitmap, s, tt, combinationOperator);
+                  Combine(symbolBitmap, s, tt, combinationOperator);
                   break;
                 case 2: // bottom right
-                  combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
+                  Combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
                   break;
                 case 3: // top right
-                  combine(symbolBitmap, s, tt, combinationOperator);
+                  Combine(symbolBitmap, s, tt, combinationOperator);
                   break;
               }
               s += bitmapWidth;
@@ -862,26 +862,26 @@ namespace JBig2Decoder.NETCore
 
           if (huffman)
           {
-            decodeIntResult = huffmanDecoder.decodeInt(huffmanDSTable);
+            decodeIntResult = huffmanDecoder.DecodeInt(huffmanDSTable);
           }
           else
           {
-            decodeIntResult = arithmeticDecoder.decodeInt(arithmeticDecoder.iadsStats);
+            decodeIntResult = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadsStats);
           }
 
-          if (!decodeIntResult.booleanResult())
+          if (!decodeIntResult.BooleanResult())
           {
             break;
           }
 
-          ds = decodeIntResult.intResult();
+          ds = decodeIntResult.IntResult();
 
           s += sOffset + ds;
         }
       }
     }
 
-    public void readTextRegion2(bool huffman, bool symbolRefine, long noOfSymbolInstances, long logStrips, long noOfSymbols, long[][] symbolCodeTable, long symbolCodeLength, JBIG2Bitmap[] symbols, int defaultPixel, int combinationOperator, bool transposed, int referenceCorner, int sOffset, long[,] huffmanFSTable, long[,] huffmanDSTable, long[,] huffmanDTTable, long[,] huffmanRDWTable, long[,] huffmanRDHTable, long[,] huffmanRDXTable, long[,] huffmanRDYTable, long[,] huffmanRSizeTable, int template, short[] symbolRegionAdaptiveTemplateX,
+    public void ReadTextRegion2(bool huffman, bool symbolRefine, long noOfSymbolInstances, long logStrips, long noOfSymbols, long[][] symbolCodeTable, long symbolCodeLength, JBIG2Bitmap[] symbols, int defaultPixel, int combinationOperator, bool transposed, int referenceCorner, int sOffset, long[,] huffmanFSTable, long[,] huffmanDSTable, long[,] huffmanDTTable, long[,] huffmanRDWTable, long[,] huffmanRDHTable, long[,] huffmanRDXTable, long[,] huffmanRDYTable, long[,] huffmanRSizeTable, int template, short[] symbolRegionAdaptiveTemplateX,
         short[] symbolRegionAdaptiveTemplateY, JBIG2StreamDecoder decoder)
     {
 
@@ -889,7 +889,7 @@ namespace JBig2Decoder.NETCore
 
       int strips = 1 << (int)logStrips;
 
-      clear(defaultPixel);
+      Clear(defaultPixel);
 
       //HuffmanDecoder huffDecoder = HuffmanDecoder.getInstance();
       //ArithmeticDecoder arithmeticDecoder = ArithmeticDecoder.getInstance();
@@ -897,11 +897,11 @@ namespace JBig2Decoder.NETCore
       long t;
       if (huffman)
       {
-        t = huffmanDecoder.decodeInt(huffmanDTTable).intResult();
+        t = huffmanDecoder.DecodeInt(huffmanDTTable).IntResult();
       }
       else
       {
-        t = arithmeticDecoder.decodeInt(arithmeticDecoder.iadtStats).intResult();
+        t = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadtStats).IntResult();
       }
       t *= -strips;
 
@@ -913,21 +913,21 @@ namespace JBig2Decoder.NETCore
 
         if (huffman)
         {
-          dt = huffmanDecoder.decodeInt(huffmanDTTable).intResult();
+          dt = huffmanDecoder.DecodeInt(huffmanDTTable).IntResult();
         }
         else
         {
-          dt = arithmeticDecoder.decodeInt(arithmeticDecoder.iadtStats).intResult();
+          dt = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadtStats).IntResult();
         }
         t += dt * strips;
 
         if (huffman)
         {
-          ds = huffmanDecoder.decodeInt(huffmanFSTable).intResult();
+          ds = huffmanDecoder.DecodeInt(huffmanFSTable).IntResult();
         }
         else
         {
-          ds = arithmeticDecoder.decodeInt(arithmeticDecoder.iafsStats).intResult();
+          ds = arithmeticDecoder.DecodeInt(arithmeticDecoder.iafsStats).IntResult();
         }
         firstS += ds;
         s = firstS;
@@ -941,11 +941,11 @@ namespace JBig2Decoder.NETCore
           }
           else if (huffman)
           {
-            dt = decoder.readBits(logStrips);
+            dt = decoder.ReadBits(logStrips);
           }
           else
           {
-            dt = arithmeticDecoder.decodeInt(arithmeticDecoder.iaitStats).intResult();
+            dt = arithmeticDecoder.DecodeInt(arithmeticDecoder.iaitStats).IntResult();
           }
           tt = t + dt;
 
@@ -954,16 +954,16 @@ namespace JBig2Decoder.NETCore
           {
             if (symbolCodeTable != null)
             {
-              symbolID = huffmanDecoder.decodeInt(symbolCodeTable).intResult();
+              symbolID = huffmanDecoder.DecodeInt(symbolCodeTable).IntResult();
             }
             else
             {
-              symbolID = decoder.readBits(symbolCodeLength);
+              symbolID = decoder.ReadBits(symbolCodeLength);
             }
           }
           else
           {
-            symbolID = arithmeticDecoder.decodeIAID(symbolCodeLength, arithmeticDecoder.iaidStats);
+            symbolID = arithmeticDecoder.DecodeIAID(symbolCodeLength, arithmeticDecoder.iaidStats);
           }
 
           if (symbolID >= noOfSymbols)
@@ -980,11 +980,11 @@ namespace JBig2Decoder.NETCore
             {
               if (huffman)
               {
-                ri = decoder.readBit();
+                ri = decoder.ReadBit();
               }
               else
               {
-                ri = arithmeticDecoder.decodeInt(arithmeticDecoder.iariStats).intResult();
+                ri = arithmeticDecoder.DecodeInt(arithmeticDecoder.iariStats).IntResult();
               }
             }
             else
@@ -998,27 +998,27 @@ namespace JBig2Decoder.NETCore
 
               if (huffman)
               {
-                refinementDeltaWidth = huffmanDecoder.decodeInt(huffmanRDWTable).intResult();
-                refinementDeltaHeight = huffmanDecoder.decodeInt(huffmanRDHTable).intResult();
-                refinementDeltaX = huffmanDecoder.decodeInt(huffmanRDXTable).intResult();
-                refinementDeltaY = huffmanDecoder.decodeInt(huffmanRDYTable).intResult();
+                refinementDeltaWidth = huffmanDecoder.DecodeInt(huffmanRDWTable).IntResult();
+                refinementDeltaHeight = huffmanDecoder.DecodeInt(huffmanRDHTable).IntResult();
+                refinementDeltaX = huffmanDecoder.DecodeInt(huffmanRDXTable).IntResult();
+                refinementDeltaY = huffmanDecoder.DecodeInt(huffmanRDYTable).IntResult();
 
-                decoder.consumeRemainingBits();
-                arithmeticDecoder.start();
+                decoder.ConsumeRemainingBits();
+                arithmeticDecoder.Start();
               }
               else
               {
-                refinementDeltaWidth = arithmeticDecoder.decodeInt(arithmeticDecoder.iardwStats).intResult();
-                refinementDeltaHeight = arithmeticDecoder.decodeInt(arithmeticDecoder.iardhStats).intResult();
-                refinementDeltaX = arithmeticDecoder.decodeInt(arithmeticDecoder.iardxStats).intResult();
-                refinementDeltaY = arithmeticDecoder.decodeInt(arithmeticDecoder.iardyStats).intResult();
+                refinementDeltaWidth = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardwStats).IntResult();
+                refinementDeltaHeight = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardhStats).IntResult();
+                refinementDeltaX = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardxStats).IntResult();
+                refinementDeltaY = arithmeticDecoder.DecodeInt(arithmeticDecoder.iardyStats).IntResult();
               }
               refinementDeltaX = ((refinementDeltaWidth >= 0) ? refinementDeltaWidth : refinementDeltaWidth - 1) / 2 + refinementDeltaX;
               refinementDeltaY = ((refinementDeltaHeight >= 0) ? refinementDeltaHeight : refinementDeltaHeight - 1) / 2 + refinementDeltaY;
 
               symbolBitmap = new JBIG2Bitmap(refinementDeltaWidth + symbols[(int)symbolID].width, refinementDeltaHeight + symbols[(int)symbolID].height, arithmeticDecoder, huffmanDecoder, mmrDecoder);
 
-              symbolBitmap.readGenericRefinementRegion(template, false, symbols[(int)symbolID], refinementDeltaX, refinementDeltaY, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY);
+              symbolBitmap.ReadGenericRefinementRegion(template, false, symbols[(int)symbolID], refinementDeltaX, refinementDeltaY, symbolRegionAdaptiveTemplateX, symbolRegionAdaptiveTemplateY);
 
             }
             else
@@ -1033,16 +1033,16 @@ namespace JBig2Decoder.NETCore
               switch (referenceCorner)
               {
                 case 0: // bottom left
-                  combine(symbolBitmap, tt, s, combinationOperator);
+                  Combine(symbolBitmap, tt, s, combinationOperator);
                   break;
                 case 1: // top left
-                  combine(symbolBitmap, tt, s, combinationOperator);
+                  Combine(symbolBitmap, tt, s, combinationOperator);
                   break;
                 case 2: // bottom right
-                  combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
+                  Combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
                   break;
                 case 3: // top right
-                  combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
+                  Combine(symbolBitmap, (tt - bitmapWidth), s, combinationOperator);
                   break;
               }
               s += bitmapHeight;
@@ -1052,16 +1052,16 @@ namespace JBig2Decoder.NETCore
               switch (referenceCorner)
               {
                 case 0: // bottom left
-                  combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
+                  Combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
                   break;
                 case 1: // top left
-                  combine(symbolBitmap, s, tt, combinationOperator);
+                  Combine(symbolBitmap, s, tt, combinationOperator);
                   break;
                 case 2: // bottom right
-                  combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
+                  Combine(symbolBitmap, s, (tt - bitmapHeight), combinationOperator);
                   break;
                 case 3: // top right
-                  combine(symbolBitmap, s, tt, combinationOperator);
+                  Combine(symbolBitmap, s, tt, combinationOperator);
                   break;
               }
               s += bitmapWidth;
@@ -1074,19 +1074,19 @@ namespace JBig2Decoder.NETCore
 
           if (huffman)
           {
-            decodeIntResult = huffmanDecoder.decodeInt(huffmanDSTable);
+            decodeIntResult = huffmanDecoder.DecodeInt(huffmanDSTable);
           }
           else
           {
-            decodeIntResult = arithmeticDecoder.decodeInt(arithmeticDecoder.iadsStats);
+            decodeIntResult = arithmeticDecoder.DecodeInt(arithmeticDecoder.iadsStats);
           }
 
-          if (!decodeIntResult.booleanResult())
+          if (!decodeIntResult.BooleanResult())
           {
             break;
           }
 
-          ds = decodeIntResult.intResult();
+          ds = decodeIntResult.IntResult();
 
           s += sOffset + ds;
         }
@@ -1094,13 +1094,13 @@ namespace JBig2Decoder.NETCore
     }
 
 
-    public void clear(int defPixel)
+    public void Clear(int defPixel)
     {
       data.SetAll(defPixel == 1);
       //data.set(0, data.size(), defPixel == 1);
     }
 
-    public void combine(JBIG2Bitmap bitmap, long x, long y, long combOp)
+    public void Combine(JBIG2Bitmap bitmap, long x, long y, long combOp)
     {
       long srcWidth = bitmap.width;
       long srcHeight = bitmap.height;
@@ -1279,7 +1279,7 @@ namespace JBig2Decoder.NETCore
     //return data.getbyte(row, col);
     //	}
 
-    private void duplicateRow(int yDest, int ySrc)
+    private void DuplicateRow(int yDest, int ySrc)
     {
       //		for (int i = 0; i < width;) {
       //			setPixelbyte(i, yDest, getPixelbyte(i, ySrc));
@@ -1287,21 +1287,21 @@ namespace JBig2Decoder.NETCore
       //		}
       for (int i = 0; i < width; i++)
       {
-        setPixel(i, yDest, getPixel(i, ySrc));
+        SetPixel(i, yDest, GetPixel(i, ySrc));
       }
     }
 
-    public long getWidth()
+    public long GetWidth()
     {
       return width;
     }
 
-    public long getHeight()
+    public long GetHeight()
     {
       return height;
     }
 
-    public byte[] getData(bool switchPixelColor)
+    public byte[] GetData(bool switchPixelColor)
     {
       byte[] bytes = new byte[height * line];
 
@@ -1335,7 +1335,7 @@ namespace JBig2Decoder.NETCore
       return bytes;
     }
 
-    public JBIG2Bitmap getSlice(long x, long y, long width, long height)
+    public JBIG2Bitmap GetSlice(long x, long y, long width, long height)
     {
       //		JBIG2Bitmap slice = new JBIG2Bitmap(width, height);
       //
@@ -1421,31 +1421,31 @@ namespace JBig2Decoder.NETCore
     //		return data.get(row, col) ? 1 : 0;
     //	}
 
-    private void setPixel(long col, long row, FastBitSet data, long value)
+    private void SetPixel(long col, long row, FastBitSet data, long value)
     {
       long index = (row * width) + col;
 
       data.Set(index, value == 1);
     }
 
-    public void setPixel(long col, long row, long value)
+    public void SetPixel(long col, long row, long value)
     {
-      setPixel(col, row, data, value);
+      SetPixel(col, row, data, value);
     }
 
-    public int getPixel(int col, int row)
+    public int GetPixel(int col, int row)
     {
       return data.Get((row * width) + col) ? 1 : 0;
     }
 
-    public void expand(int newHeight, int defaultPixel)
+    public void Expand(int newHeight, int defaultPixel)
     {
       FastBitSet newData = new FastBitSet(newHeight * width);
       for (int row = 0; row < height; row++)
       {
         for (int col = 0; col < width; col++)
         {
-          setPixel(col, row, newData, getPixel(col, row));
+          SetPixel(col, row, newData, GetPixel(col, row));
         }
       }
 
@@ -1453,19 +1453,19 @@ namespace JBig2Decoder.NETCore
       this.data = newData;
     }
 
-    public void setBitmapNumber(int segmentNumber)
+    public void SetBitmapNumber(int segmentNumber)
     {
       this.bitmapNumber = segmentNumber;
     }
 
-    public int getBitmapNumber()
+    public int GetBitmapNumber()
     {
       return bitmapNumber;
     }
 
-    public byte[] getBufferedImage()
+    public byte[] GetBufferedImage()
     {
-      byte[] bytes = getData(true);
+      byte[] bytes = GetData(true);
 
       if (bytes == null)
         return null;

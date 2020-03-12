@@ -18,14 +18,14 @@ namespace JBig2Decoder.NETCore
 			this.reader = reader;
 		}
 
-		public void reset()
+		public void Reset()
 		{
 			bufferLength = 0;
 			noOfbytesRead = 0;
 			buffer = 0;
 		}
 
-		public void skipTo(long length)
+		public void SkipTo(long length)
 		{
 			while (noOfbytesRead < length)
 			{
@@ -34,7 +34,7 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public long get24Bits()
+		public long Get24Bits()
 		{
 			while (bufferLength < 24)
 			{
@@ -47,7 +47,7 @@ namespace JBig2Decoder.NETCore
 			return (BinaryOperation.Bit32ShiftR(buffer, (int)(bufferLength - 24))) & 0xffffff;
 		}
 
-		public int get2DCode()
+		public int Get2DCode()
 		{
 			int tuple0, tuple1;
 
@@ -101,7 +101,7 @@ namespace JBig2Decoder.NETCore
 			return tuple1;
 		}
 
-		public int getWhiteCode()
+		public int GetWhiteCode()
 		{
 			int tuple0, tuple1;
 			long code;
@@ -170,7 +170,7 @@ namespace JBig2Decoder.NETCore
 			return 1;
 		}
 
-		public int getBlackCode()
+		public int GetBlackCode()
 		{
 			int tuple0, tuple1;
 			long code;
