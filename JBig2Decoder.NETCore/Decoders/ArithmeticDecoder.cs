@@ -46,25 +46,25 @@ namespace JBig2Decoder.NETCore
 			iaidStats = new ArithmeticDecoderStats(1 << 1);
 		}
 
-		public void resetIntStats(int symbolCodeLength)
+		public void ResetIntStats(int symbolCodeLength)
 		{
-			iadhStats.reset();
-			iadwStats.reset();
-			iaexStats.reset();
-			iaaiStats.reset();
-			iadtStats.reset();
-			iaitStats.reset();
-			iafsStats.reset();
-			iadsStats.reset();
-			iardxStats.reset();
-			iardyStats.reset();
-			iardwStats.reset();
-			iardhStats.reset();
-			iariStats.reset();
+			iadhStats.Reset();
+			iadwStats.Reset();
+			iaexStats.Reset();
+			iaaiStats.Reset();
+			iadtStats.Reset();
+			iaitStats.Reset();
+			iafsStats.Reset();
+			iadsStats.Reset();
+			iardxStats.Reset();
+			iardyStats.Reset();
+			iardwStats.Reset();
+			iardhStats.Reset();
+			iariStats.Reset();
 
-			if (iaidStats.getContextSize() == 1 << (symbolCodeLength + 1))
+			if (iaidStats.GetContextSize() == 1 << (symbolCodeLength + 1))
 			{
-				iaidStats.reset();
+				iaidStats.Reset();
 			}
 			else
 			{
@@ -72,26 +72,26 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public void resetGenericStats(int template, ArithmeticDecoderStats previousStats)
+		public void ResetGenericStats(int template, ArithmeticDecoderStats previousStats)
 		{
 			int size = contextSize[template];
 
-			if (previousStats != null && previousStats.getContextSize() == size)
+			if (previousStats != null && previousStats.GetContextSize() == size)
 			{
-				if (genericRegionStats.getContextSize() == size)
+				if (genericRegionStats.GetContextSize() == size)
 				{
-					genericRegionStats.overwrite(previousStats);
+					genericRegionStats.Overwrite(previousStats);
 				}
 				else
 				{
-					genericRegionStats = previousStats.copy();
+					genericRegionStats = previousStats.Copy();
 				}
 			}
 			else
 			{
-				if (genericRegionStats.getContextSize() == size)
+				if (genericRegionStats.GetContextSize() == size)
 				{
-					genericRegionStats.reset();
+					genericRegionStats.Reset();
 				}
 				else
 				{
@@ -100,25 +100,25 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public void resetRefinementStats(int template, ArithmeticDecoderStats previousStats)
+		public void ResetRefinementStats(int template, ArithmeticDecoderStats previousStats)
 		{
 			int size = referredToContextSize[template];
-			if (previousStats != null && previousStats.getContextSize() == size)
+			if (previousStats != null && previousStats.GetContextSize() == size)
 			{
-				if (refinementRegionStats.getContextSize() == size)
+				if (refinementRegionStats.GetContextSize() == size)
 				{
-					refinementRegionStats.overwrite(previousStats);
+					refinementRegionStats.Overwrite(previousStats);
 				}
 				else
 				{
-					refinementRegionStats = previousStats.copy();
+					refinementRegionStats = previousStats.Copy();
 				}
 			}
 			else
 			{
-				if (refinementRegionStats.getContextSize() == size)
+				if (refinementRegionStats.GetContextSize() == size)
 				{
-					refinementRegionStats.reset();
+					refinementRegionStats.Reset();
 				}
 				else
 				{
@@ -127,38 +127,38 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		public void start()
+		public void Start()
 		{
 			buffer0 = reader.Readbyte();
 			buffer1 = reader.Readbyte();
 
 			c = BinaryOperation.Bit32ShiftL((buffer0 ^ 0xff), 16);
-			readbyte();
+			Readbyte();
 			c = BinaryOperation.Bit32ShiftL(c, 7);
 			counter -= 7;
 			a = 0x80000000l;
 		}
 
-		public DecodeIntResult decodeInt(ArithmeticDecoderStats stats)
+		public DecodeIntResult DecodeInt(ArithmeticDecoderStats stats)
 		{
 			long value;
 
 			previous = 1;
-			int s = decodeIntBit(stats);
-			if (decodeIntBit(stats) != 0)
+			int s = DecodeIntBit(stats);
+			if (DecodeIntBit(stats) != 0)
 			{
-				if (decodeIntBit(stats) != 0)
+				if (DecodeIntBit(stats) != 0)
 				{
-					if (decodeIntBit(stats) != 0)
+					if (DecodeIntBit(stats) != 0)
 					{
-						if (decodeIntBit(stats) != 0)
+						if (DecodeIntBit(stats) != 0)
 						{
-							if (decodeIntBit(stats) != 0)
+							if (DecodeIntBit(stats) != 0)
 							{
 								value = 0;
 								for (int i = 0; i < 32; i++)
 								{
-									value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+									value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 								}
 								value += 4436;
 							}
@@ -167,7 +167,7 @@ namespace JBig2Decoder.NETCore
 								value = 0;
 								for (int i = 0; i < 12; i++)
 								{
-									value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+									value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 								}
 								value += 340;
 							}
@@ -177,7 +177,7 @@ namespace JBig2Decoder.NETCore
 							value = 0;
 							for (int i = 0; i < 8; i++)
 							{
-								value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+								value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 							}
 							value += 84;
 						}
@@ -187,24 +187,24 @@ namespace JBig2Decoder.NETCore
 						value = 0;
 						for (int i = 0; i < 6; i++)
 						{
-							value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+							value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 						}
 						value += 20;
 					}
 				}
 				else
 				{
-					value = decodeIntBit(stats);
-					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
-					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
-					value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+					value = DecodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
+					value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 					value += 4;
 				}
 			}
 			else
 			{
-				value = decodeIntBit(stats);
-				value = BinaryOperation.Bit32ShiftL(value, 1) | decodeIntBit(stats);
+				value = DecodeIntBit(stats);
+				value = BinaryOperation.Bit32ShiftL(value, 1) | DecodeIntBit(stats);
 			}
 
 			int decodedInt;
@@ -224,22 +224,22 @@ namespace JBig2Decoder.NETCore
 			return new DecodeIntResult(decodedInt, true);
 		}
 
-		public long decodeIAID(long codeLen, ArithmeticDecoderStats stats)
+		public long DecodeIAID(long codeLen, ArithmeticDecoderStats stats)
 		{
 			previous = 1;
 			for (long i = 0; i < codeLen; i++)
 			{
-				int bit = decodeBit(previous, stats);
+				int bit = DecodeBit(previous, stats);
 				previous = BinaryOperation.Bit32ShiftL(previous, 1) | bit;
 			}
 
 			return previous - (1 << (int)codeLen);
 		}
 
-		public int decodeBit(long context, ArithmeticDecoderStats stats)
+		public int DecodeBit(long context, ArithmeticDecoderStats stats)
 		{
-			int iCX = BinaryOperation.Bit8Shift(stats.getContextCodingTableValue((int)context), 1, BinaryOperation.RIGHT_SHIFT);
-			int mpsCX = stats.getContextCodingTableValue((int)context) & 1;
+			int iCX = BinaryOperation.Bit8Shift(stats.GetContextCodingTableValue((int)context), 1, BinaryOperation.RIGHT_SHIFT);
+			int mpsCX = stats.GetContextCodingTableValue((int)context) & 1;
 			int qe = qeTable[iCX];
 
 			a -= qe;
@@ -258,23 +258,23 @@ namespace JBig2Decoder.NETCore
 						bit = 1 - mpsCX;
 						if (switchTable[iCX] != 0)
 						{
-							stats.setContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | (1 - mpsCX));
+							stats.SetContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | (1 - mpsCX));
 						}
 						else
 						{
-							stats.setContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | mpsCX);
+							stats.SetContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | mpsCX);
 						}
 					}
 					else
 					{
 						bit = mpsCX;
-						stats.setContextCodingTableValue((int)context, (nmpsTable[iCX] << 1) | mpsCX);
+						stats.SetContextCodingTableValue((int)context, (nmpsTable[iCX] << 1) | mpsCX);
 					}
 					do
 					{
 						if (counter == 0)
 						{
-							readbyte();
+							Readbyte();
 						}
 
 						a = BinaryOperation.Bit32ShiftL(a, 1);
@@ -291,18 +291,18 @@ namespace JBig2Decoder.NETCore
 				if (a < qe)
 				{
 					bit = mpsCX;
-					stats.setContextCodingTableValue((int)context, (nmpsTable[iCX] << 1) | mpsCX);
+					stats.SetContextCodingTableValue((int)context, (nmpsTable[iCX] << 1) | mpsCX);
 				}
 				else
 				{
 					bit = 1 - mpsCX;
 					if (switchTable[iCX] != 0)
 					{
-						stats.setContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | (1 - mpsCX));
+						stats.SetContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | (1 - mpsCX));
 					}
 					else
 					{
-						stats.setContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | mpsCX);
+						stats.SetContextCodingTableValue((int)context, (nlpsTable[iCX] << 1) | mpsCX);
 					}
 				}
 				a = qe;
@@ -311,7 +311,7 @@ namespace JBig2Decoder.NETCore
 				{
 					if (counter == 0)
 					{
-						readbyte();
+						Readbyte();
 					}
 
 					a = BinaryOperation.Bit32ShiftL(a, 1);
@@ -323,7 +323,7 @@ namespace JBig2Decoder.NETCore
 			return bit;
 		}
 
-		private void readbyte()
+		private void Readbyte()
 		{
 			if (buffer0 == 0xff)
 			{
@@ -348,10 +348,10 @@ namespace JBig2Decoder.NETCore
 			}
 		}
 
-		private int decodeIntBit(ArithmeticDecoderStats stats)
+		private int DecodeIntBit(ArithmeticDecoderStats stats)
 		{
 
-			int bit = decodeBit(previous, stats);
+			int bit = DecodeBit(previous, stats);
 			if (previous < 0x100)
 			{
 				previous = BinaryOperation.Bit32ShiftL(previous, 1) | bit;

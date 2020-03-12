@@ -16,87 +16,87 @@ namespace JBig2Decoder.NETCore
     private int pageAssociation;
     private int dataLength;
 
-    public void setSegmentNumber(int SegmentNumber)
+    public void SetSegmentNumber(int SegmentNumber)
     {
       this.segmentNumber = SegmentNumber;
     }
-    public void setSegmentHeaderFlags(short SegmentHeaderFlags)
+    public void SetSegmentHeaderFlags(short SegmentHeaderFlags)
     {
       segmentType = SegmentHeaderFlags & 63; // 63 = 00111111
       pageAssociationSizeSet = (SegmentHeaderFlags & 64) == 64; // 64 = // 01000000
       deferredNonRetainSet = (SegmentHeaderFlags & 80) == 80; // 64 = 10000000		
     }
-    public void setReferredToSegmentCount(int referredToSegmentCount)
+    public void SetReferredToSegmentCount(int referredToSegmentCount)
     {
       this.referredToSegmentCount = referredToSegmentCount;
     }
 
-    public void setRententionFlags(short[] rententionFlags)
+    public void SetRententionFlags(short[] rententionFlags)
     {
       this.rententionFlags = rententionFlags;
     }
 
-    public void setReferredToSegments(int[] referredToSegments)
+    public void SetReferredToSegments(int[] referredToSegments)
     {
       this.referredToSegments = referredToSegments;
     }
 
-    public int[] getReferredToSegments()
+    public int[] GetReferredToSegments()
     {
       return referredToSegments;
     }
 
-    public int getSegmentType()
+    public int GetSegmentType()
     {
       return segmentType;
     }
 
-    public int getSegmentNumber()
+    public int GetSegmentNumber()
     {
       return segmentNumber;
     }
 
-    public bool isPageAssociationSizeSet()
+    public bool IsPageAssociationSizeSet()
     {
       return pageAssociationSizeSet;
     }
 
-    public bool isDeferredNonRetainSet()
+    public bool IsDeferredNonRetainSet()
     {
       return deferredNonRetainSet;
     }
 
-    public int getReferredToSegmentCount()
+    public int GetReferredToSegmentCount()
     {
       return referredToSegmentCount;
     }
 
-    public short[] getRententionFlags()
+    public short[] GetRententionFlags()
     {
       return rententionFlags;
     }
 
-    public int getPageAssociation()
+    public int GetPageAssociation()
     {
       return pageAssociation;
     }
 
-    public void setPageAssociation(int pageAssociation)
+    public void SetPageAssociation(int pageAssociation)
     {
       this.pageAssociation = pageAssociation;
     }
 
-    public void setDataLength(int dataLength)
+    public void SetDataLength(int dataLength)
     {
       this.dataLength = dataLength;
     }
 
-    public void setSegmentType(int type)
+    public void SetSegmentType(int type)
     {
       this.segmentType = type;
     }
 
-    public int getSegmentDataLength()
+    public int GetSegmentDataLength()
     {
       return dataLength;
     }

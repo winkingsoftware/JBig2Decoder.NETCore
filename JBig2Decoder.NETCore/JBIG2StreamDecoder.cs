@@ -22,19 +22,19 @@ namespace JBig2Decoder.NETCore
     private List<JBIG2Bitmap> bitmaps = new List<JBIG2Bitmap>();
     private byte[] globalData;
 
-    public void movePointer(int i)
+    public void MovePointer(int i)
     {
       reader.MovePointer(i);
     }
-    public void setGlobalData(byte[] data)
+    public void SetGlobalData(byte[] data)
     {
       globalData = data;
     }
-    public byte[] decodeJBIG2(byte[] data, ImageFormat format = ImageFormat.TIFF, int NewWidth = 0, int NewHeight = 0)
+    public byte[] DecodeJBIG2(byte[] data, ImageFormat format = ImageFormat.TIFF, int NewWidth = 0, int NewHeight = 0)
     {
       reader = new Big2StreamReader(data);
-      resetDecoder();
-      bool validFile = checkHeader();
+      ResetDecoder();
+      bool validFile = CheckHeader();
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("validFile = " + validFile);
       if (!validFile)
@@ -58,7 +58,7 @@ namespace JBig2Decoder.NETCore
           arithmeticDecoder = new ArithmeticDecoder(reader);
 
           /** read in the global data segments */
-          readSegments();
+          ReadSegments();
 
           /** set the reader back to the main data */
           reader = new Big2StreamReader(data);
@@ -82,7 +82,7 @@ namespace JBig2Decoder.NETCore
         if (JBIG2StreamDecoder.debug)
           Console.WriteLine("==== File Header ====");
 
-        setFileHeaderFlags();
+        SetFileHeaderFlags();
 
         if (JBIG2StreamDecoder.debug)
         {
@@ -92,7 +92,7 @@ namespace JBig2Decoder.NETCore
 
         if (noOfPagesKnown)
         {
-          noOfPages = getNoOfPages();
+          noOfPages = GetNoOfPages();
 
           if (JBIG2StreamDecoder.debug)
             Console.WriteLine("noOfPages = " + noOfPages);
@@ -104,13 +104,13 @@ namespace JBig2Decoder.NETCore
       arithmeticDecoder = new ArithmeticDecoder(reader);
 
       /** read in the main segment data */
-      readSegments();
+      ReadSegments();
 
       //Create Image
-      var rawimage = findPageSegement(1).getPageBitmap();
-      int width = (int)rawimage.getWidth();
-      int height = (int)rawimage.getHeight();
-      var dataStream = rawimage.getData(true);
+      var rawimage = FindPageSegement(1).GetPageBitmap();
+      int width = (int)rawimage.GetWidth();
+      int height = (int)rawimage.GetHeight();
+      var dataStream = rawimage.GetData(true);
 
       var newarray = new byte[dataStream.Length];
       Array.Copy(dataStream, newarray, dataStream.Length);
@@ -147,19 +147,19 @@ namespace JBig2Decoder.NETCore
       return stream3.ToArray();
     }
 
-    public HuffmanDecoder getHuffmanDecoder()
+    public HuffmanDecoder GetHuffmanDecoder()
     {
       return huffmanDecoder;
     }
-    public MMRDecoder getMMRDecoder()
+    public MMRDecoder GetMMRDecoder()
     {
       return mmrDecoder;
     }
-    public ArithmeticDecoder getArithmeticDecoder()
+    public ArithmeticDecoder GetArithmeticDecoder()
     {
       return arithmeticDecoder;
     }
-    private void resetDecoder()
+    private void ResetDecoder()
     {
       noOfPagesKnown = false;
       randomAccessOrganisation = false;
@@ -168,21 +168,21 @@ namespace JBig2Decoder.NETCore
       segments.Clear();
       bitmaps.Clear();
     }
-    private void readSegments()
+    private void ReadSegments()
     {
       bool finished = false;
       while (!reader.IsFinished() && !finished)
       {
 
         SegmentHeader segmentHeader = new SegmentHeader();
-        readSegmentHeader(segmentHeader);
+        ReadSegmentHeader(segmentHeader);
 
         // read the Segment data
         Segment segment = null;
 
-        int segmentType = segmentHeader.getSegmentType();
-        int[] referredToSegments = segmentHeader.getReferredToSegments();
-        int noOfReferredToSegments = segmentHeader.getReferredToSegmentCount();
+        int segmentType = segmentHeader.GetSegmentType();
+        int[] referredToSegments = segmentHeader.GetReferredToSegments();
+        int noOfReferredToSegments = segmentHeader.GetReferredToSegmentCount();
 
         switch (segmentType)
         {
@@ -190,7 +190,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new SymbolDictionarySegment(this);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -198,7 +198,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new TextRegionSegment(this, false);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -206,7 +206,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new TextRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -214,7 +214,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new TextRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -222,7 +222,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new PatternDictionarySegment(this);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -230,7 +230,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new HalftoneRegionSegment(this, false);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -238,7 +238,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new HalftoneRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -246,7 +246,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new HalftoneRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -254,7 +254,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new GenericRegionSegment(this, false);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -262,7 +262,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new GenericRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -270,7 +270,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new GenericRegionSegment(this, true);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -278,7 +278,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new RefinementRegionSegment(this, false, referredToSegments, noOfReferredToSegments);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -286,7 +286,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new RefinementRegionSegment(this, true, referredToSegments, noOfReferredToSegments);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -294,7 +294,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new RefinementRegionSegment(this, true, referredToSegments, noOfReferredToSegments);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -302,7 +302,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new PageInformationSegment(this);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -313,7 +313,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new EndOfStripeSegment(this);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
             break;
 
           case Segment.END_OF_FILE:
@@ -332,7 +332,7 @@ namespace JBig2Decoder.NETCore
 
             segment = new ExtensionSegment(this);
 
-            segment.setSegmentHeader(segmentHeader);
+            segment.SetSegmentHeader(segmentHeader);
 
             break;
 
@@ -342,7 +342,7 @@ namespace JBig2Decoder.NETCore
 
         if (!randomAccessOrganisation)
         {
-          segment.readSegment();
+          segment.ReadSegment();
         }
         segments.Add(segment);
       }
@@ -351,17 +351,17 @@ namespace JBig2Decoder.NETCore
       {
         foreach (Segment segment in segments)
         {
-          segment.readSegment();
+          segment.ReadSegment();
         }
       }
     }
 
-    public PageInformationSegment findPageSegement(int page)
+    public PageInformationSegment FindPageSegement(int page)
     {
       foreach (Segment segment in segments)
       {
-        SegmentHeader segmentHeader = segment.getSegmentHeader();
-        if (segmentHeader.getSegmentType() == Segment.PAGE_INFORMATION && segmentHeader.getPageAssociation() == page)
+        SegmentHeader segmentHeader = segment.GetSegmentHeader();
+        if (segmentHeader.GetSegmentType() == Segment.PAGE_INFORMATION && segmentHeader.GetPageAssociation() == page)
         {
           return (PageInformationSegment)segment;
         }
@@ -369,37 +369,37 @@ namespace JBig2Decoder.NETCore
 
       return null;
     }
-    public Segment findSegment(int segmentNumber)
+    public Segment FindSegment(int segmentNumber)
     {
       foreach (Segment segment in segments)
       {
-        if (segment.getSegmentHeader().getSegmentNumber() == segmentNumber)
+        if (segment.GetSegmentHeader().GetSegmentNumber() == segmentNumber)
         {
           return segment;
         }
       }
       return null;
     }
-    private void readSegmentHeader(SegmentHeader segmentHeader)
+    private void ReadSegmentHeader(SegmentHeader segmentHeader)
     {
-      handleSegmentNumber(segmentHeader);
+      HandleSegmentNumber(segmentHeader);
 
-      handleSegmentHeaderFlags(segmentHeader);
+      HandleSegmentHeaderFlags(segmentHeader);
 
-      handleSegmentReferredToCountAndRententionFlags(segmentHeader);
+      HandleSegmentReferredToCountAndRententionFlags(segmentHeader);
 
-      handleReferedToSegmentNumbers(segmentHeader);
+      HandleReferedToSegmentNumbers(segmentHeader);
 
-      handlePageAssociation(segmentHeader);
+      HandlePageAssociation(segmentHeader);
 
-      if (segmentHeader.getSegmentType() != Segment.END_OF_FILE)
-        handleSegmentDataLength(segmentHeader);
+      if (segmentHeader.GetSegmentType() != Segment.END_OF_FILE)
+        HandleSegmentDataLength(segmentHeader);
     }
-    private void handlePageAssociation(SegmentHeader segmentHeader)
+    private void HandlePageAssociation(SegmentHeader segmentHeader)
     {
       int pageAssociation;
 
-      bool isPageAssociationSizeSet = segmentHeader.isPageAssociationSizeSet();
+      bool isPageAssociationSizeSet = segmentHeader.IsPageAssociationSizeSet();
       if (isPageAssociationSizeSet)
       { // field is 4 bytes long
         short[] buf = new short[4];
@@ -411,12 +411,12 @@ namespace JBig2Decoder.NETCore
         pageAssociation = reader.Readbyte();
       }
 
-      segmentHeader.setPageAssociation(pageAssociation);
+      segmentHeader.SetPageAssociation(pageAssociation);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("pageAssociation = " + pageAssociation);
     }
-    private void handleSegmentNumber(SegmentHeader segmentHeader)
+    private void HandleSegmentNumber(SegmentHeader segmentHeader)
     {
       short[] segmentbytes = new short[4];
       reader.Readbyte(segmentbytes);
@@ -425,15 +425,15 @@ namespace JBig2Decoder.NETCore
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("SegmentNumber = " + segmentNumber);
-      segmentHeader.setSegmentNumber(segmentNumber);
+      segmentHeader.SetSegmentNumber(segmentNumber);
     }
-    private void handleSegmentHeaderFlags(SegmentHeader segmentHeader)
+    private void HandleSegmentHeaderFlags(SegmentHeader segmentHeader)
     {
       short segmentHeaderFlags = reader.Readbyte();
       // System.out.println("SegmentHeaderFlags = " + SegmentHeaderFlags);
-      segmentHeader.setSegmentHeaderFlags(segmentHeaderFlags);
+      segmentHeader.SetSegmentHeaderFlags(segmentHeaderFlags);
     }
-    private void handleSegmentReferredToCountAndRententionFlags(SegmentHeader segmentHeader)
+    private void HandleSegmentReferredToCountAndRententionFlags(SegmentHeader segmentHeader)
     {
       short referedToSegmentCountAndRetentionFlags = reader.Readbyte();
 
@@ -480,12 +480,12 @@ namespace JBig2Decoder.NETCore
         //throw new JBIG2Exception("Error, 3 bit Segment count field = " + referredToSegmentCount);
       }
 
-      segmentHeader.setReferredToSegmentCount(referredToSegmentCount);
+      segmentHeader.SetReferredToSegmentCount(referredToSegmentCount);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("referredToSegmentCount = " + referredToSegmentCount);
 
-      segmentHeader.setRententionFlags(retentionFlags);
+      segmentHeader.SetRententionFlags(retentionFlags);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("retentionFlags = ");
@@ -497,12 +497,12 @@ namespace JBig2Decoder.NETCore
         Console.WriteLine("");
       }
     }
-    private void handleReferedToSegmentNumbers(SegmentHeader segmentHeader)
+    private void HandleReferedToSegmentNumbers(SegmentHeader segmentHeader)
     {
-      int referredToSegmentCount = segmentHeader.getReferredToSegmentCount();
+      int referredToSegmentCount = segmentHeader.GetReferredToSegmentCount();
       int[] referredToSegments = new int[referredToSegmentCount];
 
-      int segmentNumber = segmentHeader.getSegmentNumber();
+      int segmentNumber = segmentHeader.GetSegmentNumber();
 
       if (segmentNumber <= 256)
       {
@@ -528,7 +528,7 @@ namespace JBig2Decoder.NETCore
         }
       }
 
-      segmentHeader.setReferredToSegments(referredToSegments);
+      segmentHeader.SetReferredToSegments(referredToSegments);
 
       if (JBIG2StreamDecoder.debug)
       {
@@ -539,24 +539,24 @@ namespace JBig2Decoder.NETCore
       }
     }
 
-    private int getNoOfPages()
+    private int GetNoOfPages()
     {
       short[] noOfPages = new short[4];
       reader.Readbyte(noOfPages);
       return BinaryOperation.GetInt32(noOfPages);
     }
-    private void handleSegmentDataLength(SegmentHeader segmentHeader)
+    private void HandleSegmentDataLength(SegmentHeader segmentHeader)
     {
       short[] buf = new short[4];
       reader.Readbyte(buf);
 
       int dateLength = BinaryOperation.GetInt32(buf);
-      segmentHeader.setDataLength(dateLength);
+      segmentHeader.SetDataLength(dateLength);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("dateLength = " + dateLength);
     }
-    private void setFileHeaderFlags()
+    private void SetFileHeaderFlags()
     {
       short headerFlags = reader.Readbyte();
 
@@ -571,7 +571,7 @@ namespace JBig2Decoder.NETCore
       int pagesKnown = headerFlags & 2;
       noOfPagesKnown = pagesKnown == 0;
     }
-    private bool checkHeader()
+    private bool CheckHeader()
     {
       short[] controlHeader = new short[] { 151, 74, 66, 50, 13, 10, 26, 10 };
       short[] actualHeader = new short[8];
@@ -579,36 +579,36 @@ namespace JBig2Decoder.NETCore
 
       return controlHeader.SequenceEqual(actualHeader);
     }
-    public int readBits(long num)
+    public int ReadBits(long num)
     {
       return reader.ReadBits(num);
     }
-    public int readBit()
+    public int ReadBit()
     {
       return reader.ReadBit();
     }
-    public void readbyte(short[] buff)
+    public void Readbyte(short[] buff)
     {
       reader.Readbyte(buff);
     }
-    public void consumeRemainingBits()
+    public void ConsumeRemainingBits()
     {
-      reader.consumeRemainingBits();
+      reader.ConsumeRemainingBits();
     }
-    public short readbyte()
+    public short Readbyte()
     {
       return reader.Readbyte();
     }
-    public void appendBitmap(JBIG2Bitmap bitmap)
+    public void AppendBitmap(JBIG2Bitmap bitmap)
     {
       bitmaps.Add(bitmap);
     }
 
-    public JBIG2Bitmap findBitmap(int bitmapNumber)
+    public JBIG2Bitmap FindBitmap(int bitmapNumber)
     {
       foreach (JBIG2Bitmap bitmap in bitmaps)
       {
-        if (bitmap.getBitmapNumber() == bitmapNumber)
+        if (bitmap.GetBitmapNumber() == bitmapNumber)
         {
           return bitmap;
         }
@@ -616,24 +616,24 @@ namespace JBig2Decoder.NETCore
 
       return null;
     }
-    public JBIG2Bitmap getPageAsJBIG2Bitmap(int i)
+    public JBIG2Bitmap GetPageAsJBIG2Bitmap(int i)
     {
-      JBIG2Bitmap pageBitmap = findPageSegement(1).getPageBitmap();
+      JBIG2Bitmap pageBitmap = FindPageSegement(1).GetPageBitmap();
       return pageBitmap;
     }
-    public bool isNumberOfPagesKnown()
+    public bool IsNumberOfPagesKnown()
     {
       return noOfPagesKnown;
     }
-    public int getNumberOfPages()
+    public int GetNumberOfPages()
     {
       return noOfPages;
     }
-    public bool isRandomAccessOrganisationUsed()
+    public bool IsRandomAccessOrganisationUsed()
     {
       return randomAccessOrganisation;
     }
-    public List<Segment> getAllSegments()
+    public List<Segment> GetAllSegments()
     {
       return segments;
     }

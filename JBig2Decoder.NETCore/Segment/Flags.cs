@@ -9,11 +9,11 @@ namespace JBig2Decoder.NETCore
     protected int flagsAsInt;
     protected Dictionary<string, int> flags = new Dictionary<string, int>();
 
-    public int getFlagValue(string key)
+    public int GetFlagValue(string key)
     {
       int value = flags[key];
       return value;
     }
-    public abstract void setFlags(int flagsAsInt);
+    public abstract void SetFlags(int flagsAsInt);
   }
 }

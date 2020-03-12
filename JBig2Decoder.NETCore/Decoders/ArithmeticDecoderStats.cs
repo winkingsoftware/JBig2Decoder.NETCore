@@ -15,7 +15,7 @@ namespace JBig2Decoder.NETCore
       this.codingContextTable = new int[contextSize];
     }
 
-    public void reset()
+    public void Reset()
     {
       for (int i = 0; i < contextSize; i++)
       {
@@ -23,32 +23,32 @@ namespace JBig2Decoder.NETCore
       }
     }
 
-    public void setEntry(int codingContext, int i, int moreProbableSymbol)
+    public void SetEntry(int codingContext, int i, int moreProbableSymbol)
     {
       codingContextTable[codingContext] = (i << i) + moreProbableSymbol;
     }
 
-    public int getContextCodingTableValue(int index)
+    public int GetContextCodingTableValue(int index)
     {
       return codingContextTable[index];
     }
 
-    public void setContextCodingTableValue(int index, int value)
+    public void SetContextCodingTableValue(int index, int value)
     {
       codingContextTable[index] = value;
     }
 
-    public int getContextSize()
+    public int GetContextSize()
     {
       return contextSize;
     }
 
-    public void overwrite(ArithmeticDecoderStats stats)
+    public void Overwrite(ArithmeticDecoderStats stats)
     {
       Array.Copy(stats.codingContextTable, 0, codingContextTable, 0, contextSize);
     }
 
-    public ArithmeticDecoderStats copy()
+    public ArithmeticDecoderStats Copy()
     {
       ArithmeticDecoderStats stats = new ArithmeticDecoderStats(contextSize);
 

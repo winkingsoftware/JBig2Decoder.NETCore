@@ -18,7 +18,7 @@ namespace JBig2Decoder.NETCore
 		public const string SD_TEMPLATE = "SD_TEMPLATE";
 		public const string SD_R_TEMPLATE = "SD_R_TEMPLATE";
 
-		public override void setFlags(int flagsAsInt)
+		public override void SetFlags(int flagsAsInt)
 		{
 			this.flagsAsInt = flagsAsInt;
 

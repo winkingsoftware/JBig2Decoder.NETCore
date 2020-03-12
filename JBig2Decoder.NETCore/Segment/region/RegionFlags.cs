@@ -7,7 +7,7 @@ namespace JBig2Decoder.NETCore
   public class RegionFlags : Flags
   {
     public static string EXTERNAL_COMBINATION_OPERATOR = "EXTERNAL_COMBINATION_OPERATOR";
-    public override void setFlags(int flagsAsInt)
+    public override void SetFlags(int flagsAsInt)
     {
       this.flagsAsInt = flagsAsInt;
 

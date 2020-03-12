@@ -16,31 +16,31 @@ namespace JBig2Decoder.NETCore
 
 		public PatternDictionarySegment(JBIG2StreamDecoder streamDecoder) : base(streamDecoder) { }
 
-		public override void readSegment()
+		public override void ReadSegment()
 		{
 			/** read text region Segment flags */
-			readPatternDictionaryFlags();
+			ReadPatternDictionaryFlags();
 
-			width = decoder.readbyte();
-			height = decoder.readbyte();
+			width = decoder.Readbyte();
+			height = decoder.Readbyte();
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("pattern dictionary size = " + width + " , " + height);
 
 			short[] buf = new short[4];
-			decoder.readbyte(buf);
+			decoder.Readbyte(buf);
 			grayMax = BinaryOperation.GetInt32(buf);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("grey max = " + grayMax);
 
-			bool useMMR = patternDictionaryFlags.getFlagValue(PatternDictionaryFlags.HD_MMR) == 1;
-			int template = patternDictionaryFlags.getFlagValue(PatternDictionaryFlags.HD_TEMPLATE);
+			bool useMMR = patternDictionaryFlags.GetFlagValue(PatternDictionaryFlags.HD_MMR) == 1;
+			int template = patternDictionaryFlags.GetFlagValue(PatternDictionaryFlags.HD_TEMPLATE);
 
 			if (!useMMR)
 			{
-				arithmeticDecoder.resetGenericStats(template, null);
-				arithmeticDecoder.start();
+				arithmeticDecoder.ResetGenericStats(template, null);
+				arithmeticDecoder.Start();
 			}
 
 			short[] genericBAdaptiveTemplateX = new short[4], genericBAdaptiveTemplateY = new short[4];
@@ -57,15 +57,15 @@ namespace JBig2Decoder.NETCore
 			size = grayMax + 1;
 
 			JBIG2Bitmap bitmap = new JBIG2Bitmap(size * width, height, arithmeticDecoder, huffmanDecoder, mmrDecoder);
-			bitmap.clear(0);
-			bitmap.readBitmap(useMMR, template, false, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, segmentHeader.getSegmentDataLength() - 7);
+			bitmap.Clear(0);
+			bitmap.ReadBitmap(useMMR, template, false, false, null, genericBAdaptiveTemplateX, genericBAdaptiveTemplateY, segmentHeader.GetSegmentDataLength() - 7);
 
 			JBIG2Bitmap[] bitmaps = new JBIG2Bitmap[size];
 
 			int x = 0;
 			for (int i = 0; i < size; i++)
 			{
-				bitmaps[i] = bitmap.getSlice(x, 0, width, height);
+				bitmaps[i] = bitmap.GetSlice(x, 0, width, height);
 				x += width;
 			}
 
@@ -73,27 +73,27 @@ namespace JBig2Decoder.NETCore
 		}
 
 
-		public JBIG2Bitmap[] getBitmaps()
+		public JBIG2Bitmap[] GetBitmaps()
 		{
 			return bitmaps;
 		}
 
-		private void readPatternDictionaryFlags()
+		private void ReadPatternDictionaryFlags()
 		{
-			short patternDictionaryFlagsField = decoder.readbyte();
+			short patternDictionaryFlagsField = decoder.Readbyte();
 
-			patternDictionaryFlags.setFlags(patternDictionaryFlagsField);
+			patternDictionaryFlags.SetFlags(patternDictionaryFlagsField);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("pattern Dictionary flags = " + patternDictionaryFlagsField);
 		}
 
-		public PatternDictionaryFlags getPatternDictionaryFlags()
+		public PatternDictionaryFlags GetPatternDictionaryFlags()
 		{
 			return patternDictionaryFlags;
 		}
 
-		public int getSize()
+		public int GetSize()
 		{
 			return size;
 		}

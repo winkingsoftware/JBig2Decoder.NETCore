@@ -13,34 +13,34 @@ namespace JBig2Decoder.NETCore
 
     public RegionSegment(JBIG2StreamDecoder streamDecoder) : base(streamDecoder) { }
 
-    public override void readSegment()
+    public override void ReadSegment()
     {
       short[] buff = new short[4];
-      decoder.readbyte(buff);
+      decoder.Readbyte(buff);
       regionBitmapWidth = BinaryOperation.GetInt32(buff);
 
       buff = new short[4];
-      decoder.readbyte(buff);
+      decoder.Readbyte(buff);
       regionBitmapHeight = BinaryOperation.GetInt32(buff);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("Bitmap size = " + regionBitmapWidth + 'x' + regionBitmapHeight);
 
       buff = new short[4];
-      decoder.readbyte(buff);
+      decoder.Readbyte(buff);
       regionBitmapXLocation = BinaryOperation.GetInt32(buff);
 
       buff = new short[4];
-      decoder.readbyte(buff);
+      decoder.Readbyte(buff);
       regionBitmapYLocation = BinaryOperation.GetInt32(buff);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("Bitmap location = " + regionBitmapXLocation + ',' + regionBitmapYLocation);
 
       /** extract region Segment flags */
-      short regionFlagsField = decoder.readbyte();
+      short regionFlagsField = decoder.Readbyte();
 
-      regionFlags.setFlags(regionFlagsField);
+      regionFlags.SetFlags(regionFlagsField);
 
       if (JBIG2StreamDecoder.debug)
         Console.WriteLine("region Segment flags = " + regionFlagsField);

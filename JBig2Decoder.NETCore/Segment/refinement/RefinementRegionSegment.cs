@@ -21,36 +21,36 @@ namespace JBig2Decoder.NETCore
 			this.noOfReferedToSegments = noOfReferedToSegments;
 		}
 
-		public void readSegment()
+		public void ReadSegment()
 		{
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("==== Reading Generic Refinement Region ====");
 
-			base.readSegment();
+			base.ReadSegment();
 
 			/** read text region segment flags */
-			readGenericRegionFlags();
+			ReadGenericRegionFlags();
 
 			short[] genericRegionAdaptiveTemplateX = new short[2];
 			short[] genericRegionAdaptiveTemplateY = new short[2];
 
-			int template = refinementRegionFlags.getFlagValue(RefinementRegionFlags.GR_TEMPLATE);
+			int template = refinementRegionFlags.GetFlagValue(RefinementRegionFlags.GR_TEMPLATE);
 			if (template == 0)
 			{
-				genericRegionAdaptiveTemplateX[0] = readATValue();
-				genericRegionAdaptiveTemplateY[0] = readATValue();
-				genericRegionAdaptiveTemplateX[1] = readATValue();
-				genericRegionAdaptiveTemplateY[1] = readATValue();
+				genericRegionAdaptiveTemplateX[0] = ReadATValue();
+				genericRegionAdaptiveTemplateY[0] = ReadATValue();
+				genericRegionAdaptiveTemplateX[1] = ReadATValue();
+				genericRegionAdaptiveTemplateY[1] = ReadATValue();
 			}
 
 			if (noOfReferedToSegments == 0 || inlineImage)
 			{
-				PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-				JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+				PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+				JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
-				if (pageSegment.getPageBitmapHeight() == -1 && regionBitmapYLocation + regionBitmapHeight > pageBitmap.getHeight())
+				if (pageSegment.GetPageBitmapHeight() == -1 && regionBitmapYLocation + regionBitmapHeight > pageBitmap.GetHeight())
 				{
-					pageBitmap.expand(regionBitmapYLocation + regionBitmapHeight, pageSegment.getPageInformationFlags().getFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE));
+					pageBitmap.Expand(regionBitmapYLocation + regionBitmapHeight, pageSegment.GetPageInformationFlags().GetFlagValue(PageInformationFlags.DEFAULT_PIXEL_VALUE));
 				}
 			}
 
@@ -65,53 +65,53 @@ namespace JBig2Decoder.NETCore
 			JBIG2Bitmap referedToBitmap;
 			if (noOfReferedToSegments == 1)
 			{
-				referedToBitmap = decoder.findBitmap(referedToSegments[0]);
+				referedToBitmap = decoder.FindBitmap(referedToSegments[0]);
 			}
 			else
 			{
-				PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-				JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+				PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+				JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
-				referedToBitmap = pageBitmap.getSlice(regionBitmapXLocation, regionBitmapYLocation, regionBitmapWidth, regionBitmapHeight);
+				referedToBitmap = pageBitmap.GetSlice(regionBitmapXLocation, regionBitmapYLocation, regionBitmapWidth, regionBitmapHeight);
 			}
 
-			arithmeticDecoder.resetRefinementStats(template, null);
-			arithmeticDecoder.start();
+			arithmeticDecoder.ResetRefinementStats(template, null);
+			arithmeticDecoder.Start();
 
-			bool typicalPredictionGenericRefinementOn = refinementRegionFlags.getFlagValue(RefinementRegionFlags.TPGDON) != 0;
+			bool typicalPredictionGenericRefinementOn = refinementRegionFlags.GetFlagValue(RefinementRegionFlags.TPGDON) != 0;
 
 			JBIG2Bitmap bitmap = new JBIG2Bitmap(regionBitmapWidth, regionBitmapHeight, arithmeticDecoder, huffmanDecoder, mmrDecoder);
 
-			bitmap.readGenericRefinementRegion(template, typicalPredictionGenericRefinementOn, referedToBitmap, 0, 0, genericRegionAdaptiveTemplateX, genericRegionAdaptiveTemplateY);
+			bitmap.ReadGenericRefinementRegion(template, typicalPredictionGenericRefinementOn, referedToBitmap, 0, 0, genericRegionAdaptiveTemplateX, genericRegionAdaptiveTemplateY);
 
 			if (inlineImage)
 			{
-				PageInformationSegment pageSegment = decoder.findPageSegement(segmentHeader.getPageAssociation());
-				JBIG2Bitmap pageBitmap = pageSegment.getPageBitmap();
+				PageInformationSegment pageSegment = decoder.FindPageSegement(segmentHeader.GetPageAssociation());
+				JBIG2Bitmap pageBitmap = pageSegment.GetPageBitmap();
 
-				int extCombOp = regionFlags.getFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
+				int extCombOp = regionFlags.GetFlagValue(RegionFlags.EXTERNAL_COMBINATION_OPERATOR);
 
-				pageBitmap.combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
+				pageBitmap.Combine(bitmap, regionBitmapXLocation, regionBitmapYLocation, extCombOp);
 			}
 			else
 			{
-				bitmap.setBitmapNumber(getSegmentHeader().getSegmentNumber());
-				decoder.appendBitmap(bitmap);
+				bitmap.SetBitmapNumber(GetSegmentHeader().GetSegmentNumber());
+				decoder.AppendBitmap(bitmap);
 			}
 		}
 
-		private void readGenericRegionFlags()
+		private void ReadGenericRegionFlags()
 		{
 			/** extract text region Segment flags */
-			short refinementRegionFlagsField = decoder.readbyte();
+			short refinementRegionFlagsField = decoder.Readbyte();
 
-			refinementRegionFlags.setFlags(refinementRegionFlagsField);
+			refinementRegionFlags.SetFlags(refinementRegionFlagsField);
 
 			if (JBIG2StreamDecoder.debug)
 				Console.WriteLine("generic region Segment flags = " + refinementRegionFlagsField);
 		}
 
-		public RefinementRegionFlags getGenericRegionFlags()
+		public RefinementRegionFlags GetGenericRegionFlags()
 		{
 			return refinementRegionFlags;
 		}

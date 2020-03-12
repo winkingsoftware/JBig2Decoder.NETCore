@@ -10,7 +10,7 @@ namespace JBig2Decoder.NETCore
     public static string DEFAULT_PIXEL_VALUE = "DEFAULT_PIXEL_VALUE";
     public static string DEFAULT_COMBINATION_OPERATOR = "DEFAULT_COMBINATION_OPERATOR";
 
-    public override void setFlags(int flagsAsInt)
+    public override void SetFlags(int flagsAsInt)
     {
       this.flagsAsInt = flagsAsInt;
       /** extract DEFAULT_PIXEL_VALUE */
